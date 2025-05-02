@@ -1,0 +1,117 @@
+.login-container {
+    max-width: 400px;
+    margin: 7rem auto;
+    padding: 2rem;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    background-color: #ffffff;
+    text-align: center;
+}
+
+.login-logo {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 1.5rem;
+
+    .logo {
+        height: 115px;
+        width: auto;
+    }
+}
+
+h2 {
+    margin-bottom: 1rem;
+    color: #333;
+    font-size: 2rem;
+}
+
+.form-group {
+    margin-bottom: 1rem;
+    text-align: left;
+
+    label {
+        display: block;
+        margin-bottom: 0.5rem;
+        font-weight: bold;
+        color: #555;
+    }
+
+    input {
+        width: 100%;
+        padding: 0.5rem;
+        font-size: 1rem;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+        outline: none;
+
+        &:focus {
+            border-color: #007bff;
+            box-shadow: 0 0 4px rgba(0, 123, 255, 0.5);
+        }
+    }
+}
+
+.btn-primary {
+    background-color: #007bff;
+    color: #ffffff;
+    border: none;
+    padding: 0.7rem 1.5rem;
+    font-size: 1rem;
+    border-radius: 5px;
+    cursor: pointer;
+    width: 100%;
+
+    &:hover {
+        background-color: #0056b3;
+    }
+}
+
+.register-link,
+.login-link {
+    margin-top: 1.5rem;
+    font-size: 0.9rem;
+    color: #555;
+
+    a {
+        color: #007bff;
+        text-decoration: none;
+        font-weight: bold;
+        cursor: pointer;
+
+        &:hover {
+            text-decoration: underline;
+        }
+    }
+}
+
+.password-input-container {
+    position: relative;
+
+    .form-control {
+        width: 100%;
+        padding-right: 4rem;
+        box-sizing: border-box;
+    }
+
+    .toggle-password {
+        position: absolute;
+        right: 0.5rem;
+        top: 50%;
+        transform: translateY(-50%);
+        background: none;
+        border: none;
+        color: #007bff;
+        font-size: 0.9rem;
+        cursor: pointer;
+
+        &:hover {
+            text-decoration: underline;
+        }
+
+        &:focus {
+            outline: none;
+        }
+    }
+}

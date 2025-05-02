@@ -1,1 +1,41 @@
-<p>login works!</p>
+<div class="login-container">
+    <div class="login-logo">
+        <img src="assets/images/logo.png" alt="Logo" class="logo" />
+    </div>
+    <h2>Iniciar Sesión</h2>
+    <form [formGroup]="formLogin" (ngSubmit)="onSubmit()">
+        <div class="form-group">
+            <label for="email">Correo electrónico:</label>
+            <input type="text" id="email" class="form-control" formControlName="email" placeholder="Introduce tu correo"
+                required />
+            <div *ngIf="formLogin.get('email')?.invalid && formLogin.get('email')?.touched" class="error">
+                Por favor, introduce un correo válido.
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="password">Contraseña:</label>
+            <div class="password-input-container">
+                <input [type]="showPassword ? 'text' : 'password'" id="password" class="form-control"
+                    formControlName="password" placeholder="Introduce tu contraseña" required />
+                <button type="button" class="toggle-password" (click)="togglePasswordVisibility()"
+                    aria-label="Mostrar u ocultar contraseña">
+                    {{ showPassword ? 'Ocultar' : 'Mostrar' }}
+                </button>
+            </div>
+            <div *ngIf="formLogin.get('password')?.invalid && formLogin.get('password')?.touched" class="error">
+                La contraseña debe tener al menos 6 caracteres.
+            </div>
+        </div>
+
+        <button type="submit" class="btn-primary" [disabled]="formLogin.invalid">Iniciar Sesión</button>
+    </form>
+
+    <div *ngIf="errorMessage" class="error-message">
+        {{ errorMessage }}
+    </div>
+
+    <div class="register-link">
+        ¿No tienes cuenta? <a (click)="goToRegister()">Regístrate</a>
+    </div>
+</div>
