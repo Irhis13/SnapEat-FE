@@ -17,6 +17,14 @@ export const routes: Routes = [
         loadComponent: () => import('./auth/register/register.component').then(m => m.RegisterComponent)
     },
     {
+        path: 'recetas',
+        loadComponent: () => import('./pages/recetas/recetas.component').then(m => m.RecetasComponent)
+    },
+    {
+        path: 'recetas/:id',
+        loadComponent: () => import('./pages/recetas/detalle/receta-detalle.component').then(m => m.RecetaDetalleComponent)
+    },
+    {
         path: '**',
         redirectTo: ''
     }

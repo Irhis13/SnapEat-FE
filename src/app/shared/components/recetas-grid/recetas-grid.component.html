@@ -1,0 +1,4 @@
+<div class="recetas-grid">
+    <app-receta-card *ngFor="let receta of recetas" [id]="receta.id" [titulo]="receta.titulo" [autor]="receta.autor"
+        [imagenUrl]="receta.imagenUrl"></app-receta-card>
+</div>

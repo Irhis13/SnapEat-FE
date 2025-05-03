@@ -1,1 +1,11 @@
-<p>home works!</p>
+<section class="latest-recipes">
+    <h2>Últimas recetas</h2>
+    <div class="recipes-grid">
+        <div *ngFor="let recipe of latestRecipes" class="recipe-card">
+            <img [src]="recipe.imageUrl" [alt]="recipe.title" />
+            <h3>{{ recipe.title }}</h3>
+            <p>{{ recipe.description }}</p>
+            <small>Por {{ recipe.authorName }}</small>
+        </div>
+    </div>
+</section>
