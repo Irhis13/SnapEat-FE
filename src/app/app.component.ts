@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, HostBinding } from '@angular/core';
 import { Router, NavigationEnd } from '@angular/router';
 import { RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
@@ -18,6 +18,10 @@ export class AppComponent implements OnInit {
   showHeaderFooter: boolean = true;
 
   hiddenRoutes = ['/login', '/register', '/guestArea'];
+
+  @HostBinding('class.sin-header') get sinHeader() {
+    return !this.showHeaderFooter;
+  }
 
   constructor(private router: Router) { }
 

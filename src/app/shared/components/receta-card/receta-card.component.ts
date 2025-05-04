@@ -18,4 +18,6 @@ export class RecetaCardComponent {
   verDetalle() {
     this.router.navigate(['/recetas', this.id]);
   }
+
+  isLoggedIn = !!localStorage.getItem('token');
 }

@@ -1,0 +1,8 @@
+<section class="categorias">
+    <div class="grid">
+        <div class="categoria" *ngFor="let cat of categorias" (click)="irAFiltro(cat.tipo)">
+            <span class="material-icons icon">{{ cat.icon }}</span>
+            <span>{{ cat.nombre }}</span>
+        </div>
+    </div>
+</section>

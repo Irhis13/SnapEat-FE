@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { AuthService } from '../../core/services/auth.service';
@@ -19,7 +19,8 @@ export class LoginComponent {
   constructor(
     private fb: FormBuilder,
     private authService: AuthService,
-    private router: Router
+    private router: Router,
+    private route: ActivatedRoute
   ) {
     this.formLogin = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
@@ -35,10 +36,14 @@ export class LoginComponent {
     if (this.formLogin.invalid) return;
 
     const credentials = this.formLogin.value;
+    const queryRedirect = this.route.snapshot.queryParamMap.get('redirectTo');
+    const redirectTo = queryRedirect || localStorage.getItem('redirectTo') || '/';
+
     this.authService.login(credentials).subscribe({
       next: (res: { token: string }) => {
         localStorage.setItem('token', res.token);
-        this.router.navigate(['/']);
+        localStorage.removeItem('redirectTo');
+        this.router.navigate([redirectTo]);
       },
       error: () => {
         this.errorMessage = 'Usuario o contraseña inválidos';

@@ -8,6 +8,8 @@ export interface Recipe {
     description: string;
     imageUrl: string;
     authorName: string;
+    tipo: string;
+    likes?: number;
 }
 
 @Injectable({
@@ -20,5 +22,17 @@ export class RecipeService {
 
     getLatestRecipes(): Observable<Recipe[]> {
         return this.http.get<Recipe[]>(`${this.apiUrl}/latest`);
+    }
+
+    getTopLikedRecipes(): Observable<Recipe[]> {
+        return this.http.get<Recipe[]>(`${this.apiUrl}/top-liked`);
+    }
+
+    getAll(): Observable<Recipe[]> {
+        return this.http.get<Recipe[]>(`${this.apiUrl}`);
+    }
+
+    getAllRecipes(): Observable<Recipe[]> {
+        return this.http.get<Recipe[]>(`${this.apiUrl}`);
     }
 }

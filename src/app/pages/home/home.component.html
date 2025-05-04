@@ -1,5 +1,6 @@
-<section class="latest-recipes">
-    <h2>Últimas recetas</h2>
+<section class="latest-recipes-section">
+    <h2 class="section-title">Últimas recetas</h2>
+
     <div class="recipes-grid">
         <div *ngFor="let recipe of latestRecipes" class="recipe-card">
             <img [src]="recipe.imageUrl" [alt]="recipe.title" />
@@ -8,4 +9,27 @@
             <small>Por {{ recipe.authorName }}</small>
         </div>
     </div>
+</section>
+
+<section class="top-liked-section">
+    <h2 class="section-title">Recetas más populares</h2>
+
+    <div class="recipes-grid">
+        <div *ngFor="let recipe of topLikedRecipes" class="recipe-card">
+            <img [src]="recipe.imageUrl" [alt]="recipe.title" />
+            <h3>{{ recipe.title }}</h3>
+            <p>{{ recipe.description }}</p>
+            <small>Por {{ recipe.authorName }}</small>
+        </div>
+    </div>
+</section>
+
+<section class="categorias-destacadas-section">
+    <h2 class="section-title">Categorías destacadas</h2>
+    <app-categorias-destacadas></app-categorias-destacadas>
+</section>
+
+<section class="cta-crear-receta" *ngIf="isLoggedIn">
+    <h2>¿Tienes una receta que compartir?</h2>
+    <button (click)="crearReceta()">Crear receta</button>
 </section>

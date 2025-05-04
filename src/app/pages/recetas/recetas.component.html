@@ -1,1 +1,37 @@
-<p>recetas works!</p>
+<div class="recetas-page">
+    <aside class="filtros">
+        <h3>Filtrar recetas</h3>
+
+        <input type="text" placeholder="Buscar por título..." [(ngModel)]="filtros.titulo" (input)="filtrar()" />
+        <input type="text" placeholder="Buscar por autor..." [(ngModel)]="filtros.autor" (input)="filtrar()" />
+
+        <select [(ngModel)]="filtros.categoria" (change)="filtrar()">
+            <option value="">Todas las categorías</option>
+            <option value="comida">Comidas</option>
+            <option value="postre">Postres</option>
+            <option value="empanada">Empanadas</option>
+            <option value="vegetariano">Vegetariano</option>
+        </select>
+
+        <button (click)="limpiarFiltros()">Borrar filtros</button>
+    </aside>
+
+    <section class="resultados">
+        <h2 class="section-title">Listado de recetas</h2>
+
+        <div class="recipes-grid">
+            <div *ngFor="let receta of recetasFiltradas" class="recipe-card-horizontal">
+                <img [src]="receta.imageUrl" [alt]="receta.title" />
+                <div class="card-info">
+                    <h3>{{ receta.title }}</h3>
+                    <p>{{ receta.description }}</p>
+                    <small>Por {{ receta.authorName }}</small>
+                    <div class="likes">
+                        <mat-icon color="warn">favorite</mat-icon>
+                        <span>{{ receta.likes || 0 }}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>

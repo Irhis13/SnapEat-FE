@@ -1,10 +1,12 @@
 import { Component } from '@angular/core';
-import { Router, RouterModule } from '@angular/router';
+import { Router, RouterModule, NavigationEnd } from '@angular/router';
+import { CommonModule } from '@angular/common';
+import { filter } from 'rxjs/operators'; 
 
 @Component({
   selector: 'app-header',
   standalone: true,
-  imports: [RouterModule],
+  imports: [RouterModule, CommonModule],
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.scss']
 })
@@ -17,9 +19,17 @@ export class HeaderComponent {
   ];
 
   currentIndex = 0;
+  showCarousel = true;
 
   constructor(private router: Router) {
     setInterval(() => this.nextImage(), 5000);
+
+    this.router.events
+      .pipe(filter(event => event instanceof NavigationEnd))
+      .subscribe((event: NavigationEnd) => {
+        const currentRoute = event.urlAfterRedirects.split('?')[0];
+        this.showCarousel = currentRoute === '/';
+      });
   }
 
   goToTipo(tipo: string): void {

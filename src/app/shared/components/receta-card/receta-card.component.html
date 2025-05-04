@@ -1,4 +1,4 @@
-<div class="receta-card" (click)="verDetalle()">
+<div class="receta-card" (click)="verDetalle()" [class.disabled]="!isLoggedIn">
     <img [src]="imagenUrl" alt="Imagen receta" />
     <h3>{{ titulo }}</h3>
     <p>{{ autor }}</p>

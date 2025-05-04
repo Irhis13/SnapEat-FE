@@ -8,7 +8,7 @@
     </nav>
 </header>
 
-<div class="carousel">
+<div class="carousel" *ngIf="showCarousel">
     <button class="arrow left" (click)="prevImage()">‹</button>
 
     <img [src]="images[currentIndex].url" class="carousel-image" (click)="goToTipo(images[currentIndex].tipo)"

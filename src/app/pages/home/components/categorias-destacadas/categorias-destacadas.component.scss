@@ -1,0 +1,39 @@
+.categorias {
+    text-align: center;
+    padding: 3rem 1rem;
+
+    h2 {
+        font-size: 2rem;
+        margin-bottom: 2rem;
+    }
+
+    .grid {
+        display: flex;
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 2rem;
+
+        .categoria {
+            cursor: pointer;
+            text-align: center;
+            width: 120px;
+            transition: transform 0.2s;
+
+            .icon {
+                font-size: 48px;
+                color: #ff7b1a;
+                margin-bottom: 0.5rem;
+            }
+
+            span {
+                display: block;
+                font-weight: bold;
+                color: #333;
+            }
+
+            &:hover {
+                transform: scale(1.05);
+            }
+        }
+    }
+}

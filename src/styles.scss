@@ -1,1 +1,15 @@
-/* You can add global styles to this file, and also import other style files */
+body {
+    margin: 0;
+}
+
+.app-container {
+    padding-top: 70px;
+}
+
+.sin-header .app-container {
+    padding-top: 0;
+}
+
+.sin-header .carousel {
+    display: none;
+}
