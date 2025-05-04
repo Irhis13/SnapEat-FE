@@ -1,20 +1,19 @@
-<div class="recetas-page">
-    <aside class="filtros">
-        <h3>Filtrar recetas</h3>
+<div class="recetas-page container-contenido">
+    <section class="filtros-superior">
+        <input type="text" placeholder="Buscar título..." [(ngModel)]="filtros.titulo" (input)="filtrar()" />
+        <input type="text" placeholder="Buscar autor..." [(ngModel)]="filtros.autor" (input)="filtrar()" />
+        <input type="text" placeholder="Buscar ingredientes..." [(ngModel)]="filtros.ingrediente" (input)="filtrar()" />
 
-        <input type="text" placeholder="Buscar por título..." [(ngModel)]="filtros.titulo" (input)="filtrar()" />
-        <input type="text" placeholder="Buscar por autor..." [(ngModel)]="filtros.autor" (input)="filtrar()" />
+        <div class="botones-categorias">
+            <button *ngFor="let cat of categorias" [ngClass]="{ activo: filtros.categoria === cat.valor }"
+                (click)="toggleCategoria(cat.valor)">
+                <mat-icon>{{ filtros.categoria === cat.valor ? 'remove' : 'add' }}</mat-icon>
+                {{ cat.label }}
+            </button>
+        </div>
 
-        <select [(ngModel)]="filtros.categoria" (change)="filtrar()">
-            <option value="">Todas las categorías</option>
-            <option value="comida">Comidas</option>
-            <option value="postre">Postres</option>
-            <option value="empanada">Empanadas</option>
-            <option value="vegetariano">Vegetariano</option>
-        </select>
-
-        <button (click)="limpiarFiltros()">Borrar filtros</button>
-    </aside>
+        <button class="borrar" (click)="limpiarFiltros()">Borrar filtros</button>
+    </section>
 
     <section class="resultados">
         <h2 class="section-title">Listado de recetas</h2>

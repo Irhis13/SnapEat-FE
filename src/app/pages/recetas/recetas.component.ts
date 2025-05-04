@@ -17,7 +17,8 @@ export class RecetasComponent implements OnInit {
   filtros = {
     categoria: '',
     titulo: '',
-    autor: ''
+    autor: '',
+    ingrediente: ''
   };
 
   constructor(private recipeService: RecipeService) { }
@@ -32,18 +33,31 @@ export class RecetasComponent implements OnInit {
     });
   }
 
+  categorias = [
+    { label: 'Comidas', valor: 'comida' },
+    { label: 'Postres', valor: 'postre' },
+    { label: 'Empanadas', valor: 'empanada' },
+    { label: 'Vegetariano', valor: 'vegetariano' }
+  ];
+
+  toggleCategoria(valor: string): void {
+    this.filtros.categoria = this.filtros.categoria === valor ? '' : valor;
+    this.filtrar();
+  }
+
   filtrar(): void {
     this.recetasFiltradas = this.recetas.filter(receta => {
       return (
         (this.filtros.titulo === '' || receta.title.toLowerCase().includes(this.filtros.titulo.toLowerCase())) &&
         (this.filtros.autor === '' || receta.authorName.toLowerCase().includes(this.filtros.autor.toLowerCase())) &&
-        (this.filtros.categoria === '' || receta.tipo === this.filtros.categoria)
+        (this.filtros.categoria === '' || receta.category === this.filtros.categoria.toUpperCase()) &&
+        (this.filtros.ingrediente === '' || receta.ingredients.toLowerCase().includes(this.filtros.ingrediente.toLowerCase()))
       );
     });
   }
 
   limpiarFiltros(): void {
-    this.filtros = { categoria: '', titulo: '', autor: '' };
+    this.filtros = { categoria: '', titulo: '', autor: '', ingrediente: '' };
     this.recetasFiltradas = [...this.recetas];
   }
 }

@@ -8,8 +8,9 @@ export interface Recipe {
     description: string;
     imageUrl: string;
     authorName: string;
-    tipo: string;
-    likes?: number;
+    category: 'COMIDA' | 'POSTRE' | 'EMPANADA' | 'VEGETARIANO';
+    ingredients: string;
+    likes: number;
 }
 
 @Injectable({

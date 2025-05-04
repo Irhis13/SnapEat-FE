@@ -13,3 +13,19 @@ body {
 .sin-header .carousel {
     display: none;
 }
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+.container-contenido {
+    padding: 2rem 14rem;
+    max-width: 1600px;
+    margin: 0 auto;
+
+    @media (max-width: 1200px) {
+        padding: 2rem 6rem;
+    }
+
+    @media (max-width: 768px) {
+        padding: 1rem 2rem;
+    }
+}
