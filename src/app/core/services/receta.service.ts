@@ -10,30 +10,58 @@ export interface Recipe {
     authorName: string;
     category: 'COMIDA' | 'POSTRE' | 'EMPANADA' | 'VEGETARIANO';
     ingredients: string;
+    steps: string[];
     likes: number;
+    likedByCurrentUser: boolean;
+    isOwner: boolean;
 }
 
 @Injectable({
     providedIn: 'root'
 })
 export class RecipeService {
-    private apiUrl = 'http://localhost:8080/api/recipes';
+    private baseUrl = 'http://localhost:8080/api/recipes';
+    private likesUrl = 'http://localhost:8080/api/likes';
 
     constructor(private http: HttpClient) { }
 
+    getAllRecipes(): Observable<Recipe[]> {
+        return this.http.get<Recipe[]>(this.baseUrl);
+    }
+
     getLatestRecipes(): Observable<Recipe[]> {
-        return this.http.get<Recipe[]>(`${this.apiUrl}/latest`);
+        return this.http.get<Recipe[]>(`${this.baseUrl}/latest`);
     }
 
     getTopLikedRecipes(): Observable<Recipe[]> {
-        return this.http.get<Recipe[]>(`${this.apiUrl}/top-liked`);
+        return this.http.get<Recipe[]>(`${this.baseUrl}/top-liked`);
     }
 
-    getAll(): Observable<Recipe[]> {
-        return this.http.get<Recipe[]>(`${this.apiUrl}`);
+    getById(id: number): Observable<Recipe> {
+        return this.http.get<Recipe>(`${this.baseUrl}/${id}`);
     }
 
-    getAllRecipes(): Observable<Recipe[]> {
-        return this.http.get<Recipe[]>(`${this.apiUrl}`);
+    getByTitle(value: string): Observable<Recipe[]> {
+        return this.http.get<Recipe[]>(`${this.baseUrl}/title?value=${value}`);
+    }
+
+    getByIngredient(value: string): Observable<Recipe[]> {
+        return this.http.get<Recipe[]>(`${this.baseUrl}/ingredient?value=${value}`);
+    }
+
+    getByAuthor(authorId: number): Observable<Recipe[]> {
+        return this.http.get<Recipe[]>(`${this.baseUrl}/author/${authorId}`);
+    }
+
+    toggleLike(recipeId: number): Observable<any> {
+        return this.http.post(`${this.likesUrl}/${recipeId}`, {});
+    }
+
+    toggleUnlike(recipeId: number): Observable<any> {
+        return this.http.delete(`${this.likesUrl}/${recipeId}`);
+    }
+
+    delete(id: number): Observable<void> {
+        return this.http.delete<void>(`${this.baseUrl}/${id}`);
     }
 }

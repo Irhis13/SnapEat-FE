@@ -1,1 +1,54 @@
-<p>receta-detalle works!</p>
+<div class="detalle-receta" *ngIf="receta">
+    <img [src]="receta.imageUrl" [alt]="receta.title" />
+    <h1>{{ receta.title }}</h1>
+
+    <div class="categoria-autor">
+        <span class="categoria-badge">{{ receta.category }}</span>
+        <span class="autor-nombre">Por {{ receta.authorName }}</span>
+    </div>
+
+    <section class="descripcion">
+        <h2>Descripción</h2>
+        <hr class="separador" />
+        <p>{{ receta.description }}</p>
+    </section>
+
+    <section class="ingredientes">
+        <h2>Ingredientes</h2>
+        <hr class="separador" />
+        <ul class="ingredientes-list">
+            <li *ngFor="let ingrediente of receta.ingredients.split(',')">
+                {{ ingrediente.trim() }}
+            </li>
+        </ul>
+    </section>
+
+    <section class="pasos">
+        <h2>Pasos de elaboración</h2>
+        <hr class="separador" />
+        <ol>
+            <li *ngFor="let paso of receta.steps">{{ paso }}</li>
+        </ol>
+    </section>
+
+    <section class="acciones">
+        <button (click)="toggleLike()">
+            <mat-icon color="warn">{{ liked ? 'favorite' : 'favorite_border' }}</mat-icon>
+            <span>{{ receta.likes }}</span>
+        </button>
+    
+        <button (click)="toggleFavorite()">
+            <mat-icon>{{ isFavorited ? 'bookmark' : 'bookmark_border' }}</mat-icon>
+            <span>{{ isFavorited ? 'Guardado' : 'Añadir receta a favoritos' }}</span>
+        </button>
+    
+        <ng-container *ngIf="isAuthor">
+            <button (click)="editarReceta()">
+                <mat-icon>edit</mat-icon>
+            </button>
+            <button (click)="eliminarReceta()">
+                <mat-icon color="warn">delete</mat-icon>
+            </button>
+        </ng-container>
+    </section>
+</div>

@@ -79,4 +79,8 @@ export class RecetasComponent implements OnInit {
     this.filtros = { categoria: '', titulo: '', autor: '', ingrediente: '' };
     this.recetasFiltradas = [...this.recetas];
   }
+
+  verDetalle(id: number): void {
+    this.router.navigate(['/recetas', id]);
+  }
 }

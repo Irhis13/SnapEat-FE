@@ -21,7 +21,7 @@ export const routes: Routes = [
     },
     {
         path: 'recetas/:id',
-        loadComponent: () => import('./pages/recetas/detalle/receta-detalle.component').then(m => m.RecetaDetalleComponent),
+        loadComponent: () => import('./pages/recetas/detalle/receta-detalle.component').then(m => m.DetalleRecetaComponent),
         canActivate: [AuthGuard]
     },
     {
