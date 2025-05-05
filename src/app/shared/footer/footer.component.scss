@@ -10,14 +10,17 @@ footer {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    flex-wrap: wrap;
+    gap: 1rem;
     max-width: 1200px;
     margin: 0 auto;
+    padding: 0.5rem 0;
 }
 
 .footer-left,
 .footer-center,
 .footer-right {
-    flex: 1;
+    flex: 1 1 100%;
     text-align: center;
 }
 
@@ -36,8 +39,17 @@ footer {
 footer a {
     color: #1e88e5;
     text-decoration: none;
+
+    &:hover {
+        text-decoration: underline;
+    }
 }
 
-footer a:hover {
-    text-decoration: underline;
+@media (max-width: 768px) {
+
+    .footer-left,
+    .footer-center,
+    .footer-right {
+        text-align: center;
+    }
 }
