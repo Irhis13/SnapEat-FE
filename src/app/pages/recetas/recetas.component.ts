@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { RecipeService, Recipe } from '../../core/services/receta.service';
 import { FormsModule } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-recetas',
@@ -21,15 +22,33 @@ export class RecetasComponent implements OnInit {
     ingrediente: ''
   };
 
-  constructor(private recipeService: RecipeService) { }
+  constructor(
+    private recipeService: RecipeService,
+    private route: ActivatedRoute,
+    private router: Router
+  ) { }
 
   ngOnInit(): void {
-    this.recipeService.getAllRecipes().subscribe({
-      next: (data: Recipe[]) => {
-        this.recetas = data;
-        this.recetasFiltradas = [...data];
-      },
-      error: (err: any) => console.error('Error al cargar recetas', err)
+    this.route.queryParams.subscribe(params => {
+      const cat = params['categoria'];
+      if (cat) {
+        this.filtros.categoria = cat;
+      }
+
+      this.recipeService.getAllRecipes().subscribe({
+        next: (data: Recipe[]) => {
+          this.recetas = data;
+          this.recetasFiltradas = [...data];
+          this.filtrar();
+        },
+        error: (err: any) => console.error('Error al cargar recetas', err)
+      });
+
+      this.router.navigate([], {
+        relativeTo: this.route,
+        queryParams: {},
+        replaceUrl: true
+      });
     });
   }
 

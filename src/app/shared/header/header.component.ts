@@ -33,7 +33,7 @@ export class HeaderComponent {
   }
 
   goToTipo(tipo: string): void {
-    this.router.navigate(['/recetas'], { queryParams: { tipo } });
+    this.router.navigate(['/recetas'], { queryParams: { categoria: tipo.toLowerCase() } });
   }
 
   nextImage(): void {
@@ -43,5 +43,32 @@ export class HeaderComponent {
   prevImage(): void {
     this.currentIndex =
       (this.currentIndex - 1 + this.images.length) % this.images.length;
+  }
+
+  overlayTextMap: { [key: string]: { title: string; subtitle: string } } = {
+    comida: {
+      title: 'Sabores que reconfortan',
+      subtitle: 'Platos clásicos para disfrutar en buena compañía'
+    },
+    postre: {
+      title: 'Momentos dulces',
+      subtitle: 'Descubre postres que alegran cada ocasión'
+    },
+    empanada: {
+      title: 'Empanadas irresistibles',
+      subtitle: 'Crujientes, rellenas y fáciles de preparar'
+    },
+    vegetariano: {
+      title: 'Placeres vegetarianos',
+      subtitle: 'Delicias vegetarianas para todos los gustos'
+    }
+  };
+
+  get currentOverlay() {
+    const tipo = this.images[this.currentIndex].tipo;
+    return this.overlayTextMap[tipo] || {
+      title: 'Recetas de cocina fáciles',
+      subtitle: 'Descubre sabores caseros con SnapEat'
+    };
   }
 }
