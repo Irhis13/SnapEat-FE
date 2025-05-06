@@ -16,8 +16,8 @@ import { MatIconModule } from '@angular/material/icon';
 export class DetalleRecetaComponent implements OnInit {
   receta: Recipe | null = null;
   isAuthor = false;
-  isLiked = false;
   liked = false;
+  isFavorited = false;
 
   constructor(
     private route: ActivatedRoute,
@@ -34,6 +34,13 @@ export class DetalleRecetaComponent implements OnInit {
           this.receta = data;
           this.liked = data.likedByCurrentUser;
           this.isAuthor = data.isOwner;
+
+          this.recipeService.isFavorited(data.id).subscribe({
+            next: (isFav) => {
+              this.isFavorited = isFav;
+            },
+            error: () => console.warn('No se pudo comprobar si es favorita')
+          });
         },
         error: () => console.error('Error al cargar receta')
       });
@@ -43,17 +50,26 @@ export class DetalleRecetaComponent implements OnInit {
   toggleLike(): void {
     if (!this.receta) return;
 
-    if (this.liked) {
-      this.recipeService.toggleUnlike(this.receta.id).subscribe(() => {
-        this.liked = false;
-        this.receta!.likes -= 1;
-      });
-    } else {
-      this.recipeService.toggleLike(this.receta.id).subscribe(() => {
-        this.liked = true;
-        this.receta!.likes += 1;
-      });
-    }
+    const likeAction = this.liked
+      ? this.recipeService.toggleUnlike(this.receta.id)
+      : this.recipeService.toggleLike(this.receta.id);
+
+    likeAction.subscribe(() => {
+      this.liked = !this.liked;
+      this.receta!.likes += this.liked ? 1 : -1;
+    });
+  }
+
+  toggleFavorite(): void {
+    if (!this.receta) return;
+
+    const favAction = this.isFavorited
+      ? this.recipeService.toggleUnfavorite(this.receta.id)
+      : this.recipeService.toggleFavorite(this.receta.id);
+
+    favAction.subscribe(() => {
+      this.isFavorited = !this.isFavorited;
+    });
   }
 
   editarReceta(): void {
@@ -61,15 +77,8 @@ export class DetalleRecetaComponent implements OnInit {
   }
 
   eliminarReceta(): void {
-    if (!this.receta) return;
-    if (confirm('¿Estás seguro de eliminar esta receta?')) {
+    if (this.receta && confirm('¿Estás seguro de eliminar esta receta?')) {
       this.recipeService.delete(this.receta.id).subscribe(() => this.router.navigate(['/recetas']));
     }
-  }
-
-  isFavorited = false;
-
-  toggleFavorite(): void {
-    this.isFavorited = !this.isFavorited;
   }
 }

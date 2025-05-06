@@ -37,9 +37,9 @@
             <span>{{ receta.likes }}</span>
         </button>
     
-        <button (click)="toggleFavorite()">
+        <button (click)="toggleFavorite()" class="favorite-button">
             <mat-icon>{{ isFavorited ? 'bookmark' : 'bookmark_border' }}</mat-icon>
-            <span>{{ isFavorited ? 'Guardado' : 'Añadir receta a favoritos' }}</span>
+            <span>{{ isFavorited ? 'Guardado' : 'Añadir a favoritos' }}</span>
         </button>
     
         <ng-container *ngIf="isAuthor">

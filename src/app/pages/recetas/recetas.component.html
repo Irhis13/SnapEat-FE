@@ -26,8 +26,13 @@
                     <p>{{ receta.description }}</p>
                     <small>Por {{ receta.authorName }}</small>
                     <div class="likes">
-                        <mat-icon color="warn">favorite</mat-icon>
+                        <mat-icon color="warn">
+                            {{ receta.likedByCurrentUser ? 'favorite' : 'favorite_border' }}
+                        </mat-icon>
                         <span>{{ receta.likes || 0 }}</span>
+                        <mat-icon *ngIf="receta.favoritedByCurrentUser" class="bookmark-icon">
+                            turned_in
+                        </mat-icon>
                     </div>
                 </div>
             </div>

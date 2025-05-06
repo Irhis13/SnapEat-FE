@@ -137,6 +137,30 @@
         }
     }
 
+    .favorite-button {
+        display: flex;
+        align-items: center;
+        gap: 0.4rem;
+        background: none;
+        border: none;
+        color: #444;
+        font-size: 1rem;
+        cursor: pointer;
+
+        mat-icon {
+            font-size: 20px;
+            vertical-align: middle;
+        }
+
+        &:hover {
+            color: #ff7b1a;
+
+            mat-icon {
+                color: #ff7b1a;
+            }
+        }
+    }
+
     @media (max-width: 600px) {
         padding: 1rem;
 

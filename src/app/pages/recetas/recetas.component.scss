@@ -147,6 +147,28 @@
         }
     }
 
+    .likes {
+        display: flex;
+        align-items: center;
+        gap: 0.3rem;
+        color: #e53935;
+
+        mat-icon {
+            font-size: 20px;
+        }
+
+        span {
+            font-weight: 500;
+        }
+
+        .bookmark-icon {
+            font-size: 20px;
+            color: #444;
+            margin-left: 0.5rem;
+            vertical-align: middle;
+        }
+    }
+
     @media (max-width: 768px) {
         padding: 1rem;
 

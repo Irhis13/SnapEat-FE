@@ -14,6 +14,7 @@ export interface Recipe {
     likes: number;
     likedByCurrentUser: boolean;
     isOwner: boolean;
+    favoritedByCurrentUser: boolean;
 }
 
 @Injectable({
@@ -22,6 +23,7 @@ export interface Recipe {
 export class RecipeService {
     private baseUrl = 'http://localhost:8080/api/recipes';
     private likesUrl = 'http://localhost:8080/api/likes';
+    private favoritesUrl = 'http://localhost:8080/api/favorites';
 
     constructor(private http: HttpClient) { }
 
@@ -63,5 +65,17 @@ export class RecipeService {
 
     delete(id: number): Observable<void> {
         return this.http.delete<void>(`${this.baseUrl}/${id}`);
+    }
+
+    toggleFavorite(recipeId: number): Observable<void> {
+        return this.http.post<void>(`${this.favoritesUrl}/${recipeId}`, {});
+    }
+
+    toggleUnfavorite(recipeId: number): Observable<void> {
+        return this.http.delete<void>(`${this.favoritesUrl}/${recipeId}`);
+    }
+
+    isFavorited(recipeId: number): Observable<boolean> {
+        return this.http.get<boolean>(`${this.favoritesUrl}/exists/${recipeId}`);
     }
 }
