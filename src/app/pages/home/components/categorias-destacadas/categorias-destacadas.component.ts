@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 
@@ -20,6 +20,6 @@ export class CategoriasDestacadasComponent {
   constructor(private router: Router) { }
 
   irAFiltro(tipo: string) {
-    this.router.navigate(['/recetas'], { queryParams: { tipo } });
+    this.router.navigate(['/recetas'], { queryParams: { categoria: tipo } });
   }
 }

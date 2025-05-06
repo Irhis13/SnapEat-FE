@@ -35,4 +35,8 @@ export class HomeComponent implements OnInit {
   crearReceta(): void {
     this.router.navigate(['/recetas/crear']);
   }
+
+  verDetalle(id: number): void {
+    this.router.navigate(['/recetas', id]);
+  }
 }

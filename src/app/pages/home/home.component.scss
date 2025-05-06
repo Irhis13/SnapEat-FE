@@ -42,6 +42,7 @@
     width: 250px;
     text-align: center;
     padding: 1rem;
+    cursor: pointer;
 
     img {
         width: 100%;
@@ -63,6 +64,12 @@
 
     small {
         color: #888;
+    }
+
+    &:hover {
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        transform: translateY(-2px);
+        transition: 0.2s ease;
     }
 }
 

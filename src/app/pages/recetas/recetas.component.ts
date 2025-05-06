@@ -105,6 +105,7 @@ export class RecetasComponent implements OnInit {
     this.filtros = { categoria: '', titulo: '', autor: '', ingrediente: '' };
     this.ordenSeleccionado = '';
     this.recetasFiltradas = [...this.recetas];
+    this.filtrar();
   }
 
   verDetalle(id: number): void {
