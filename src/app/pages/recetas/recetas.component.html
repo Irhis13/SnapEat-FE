@@ -3,6 +3,14 @@
         <input type="text" placeholder="Buscar título..." [(ngModel)]="filtros.titulo" (input)="filtrar()" />
         <input type="text" placeholder="Buscar autor..." [(ngModel)]="filtros.autor" (input)="filtrar()" />
         <input type="text" placeholder="Buscar ingredientes..." [(ngModel)]="filtros.ingrediente" (input)="filtrar()" />
+        <select [(ngModel)]="ordenSeleccionado" (change)="ordenar()">
+            <option disabled value="">Ordenar por...</option>
+            <option value="titulo-asc">Título A-Z</option>
+            <option value="titulo-desc">Título Z-A</option>
+            <option value="fecha-reciente">Más recientes</option>
+            <option value="fecha-antigua">Más antiguas</option>
+            <option value="likes">Más populares</option>
+        </select>
 
         <div class="botones-categorias">
             <button *ngFor="let cat of categorias" [ngClass]="{ activo: filtros.categoria === cat.valor }"
@@ -39,3 +47,6 @@
         </div>
     </section>
 </div>
+<button class="scroll-top" *ngIf="showScrollTop" (click)="scrollToTop()" aria-label="Volver arriba">
+    <mat-icon>keyboard_arrow_up</mat-icon>
+</button>

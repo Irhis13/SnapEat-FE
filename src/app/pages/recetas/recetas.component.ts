@@ -15,6 +15,8 @@ import { ActivatedRoute, Router } from '@angular/router';
 export class RecetasComponent implements OnInit {
   recetas: Recipe[] = [];
   recetasFiltradas: Recipe[] = [];
+  ordenSeleccionado = '';
+  showScrollTop = false;
   filtros = {
     categoria: '',
     titulo: '',
@@ -50,6 +52,8 @@ export class RecetasComponent implements OnInit {
         replaceUrl: true
       });
     });
+
+    window.addEventListener('scroll', this.handleScroll, true);
   }
 
   categorias = [
@@ -64,6 +68,27 @@ export class RecetasComponent implements OnInit {
     this.filtrar();
   }
 
+  ordenar(): void {
+    if (!this.ordenSeleccionado) return;
+
+    this.recetasFiltradas.sort((a, b) => {
+      switch (this.ordenSeleccionado) {
+        case 'titulo-asc':
+          return a.title.localeCompare(b.title);
+        case 'titulo-desc':
+          return b.title.localeCompare(a.title);
+        case 'fecha-reciente':
+          return b.id - a.id;
+        case 'fecha-antigua':
+          return a.id - b.id;
+        case 'likes':
+          return b.likes - a.likes;
+        default:
+          return 0;
+      }
+    });
+  }
+
   filtrar(): void {
     this.recetasFiltradas = this.recetas.filter(receta => {
       return (
@@ -73,14 +98,28 @@ export class RecetasComponent implements OnInit {
         (this.filtros.ingrediente === '' || receta.ingredients.toLowerCase().includes(this.filtros.ingrediente.toLowerCase()))
       );
     });
+    this.ordenar();
   }
 
   limpiarFiltros(): void {
     this.filtros = { categoria: '', titulo: '', autor: '', ingrediente: '' };
+    this.ordenSeleccionado = '';
     this.recetasFiltradas = [...this.recetas];
   }
 
   verDetalle(id: number): void {
     this.router.navigate(['/recetas', id]);
+  }
+
+  ngOnDestroy(): void {
+    window.removeEventListener('scroll', this.handleScroll, true);
+  }
+
+  handleScroll = (): void => {
+    this.showScrollTop = window.pageYOffset > 300;
+  };
+
+  scrollToTop(): void {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 }

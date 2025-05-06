@@ -10,11 +10,38 @@
         margin-bottom: 2rem;
         align-items: center;
 
-        input {
+        input,
+        select,
+        .borrar {
             padding: 0.6rem;
-            border: 1px solid #ddd;
+            border: 1px solid #ccc;
             border-radius: 6px;
             font-size: 1rem;
+            min-width: 180px;
+        }
+
+        input,
+        select {
+            background-color: white;
+            color: #444;
+        }
+
+        select {
+            appearance: none;
+            cursor: pointer;
+            color: #666; // gris sutil para el texto
+        }
+
+        .borrar {
+            background-color: #ff7b1a;
+            color: white;
+            font-weight: bold;
+            border: none;
+            cursor: pointer;
+
+            &:hover {
+                background-color: #e86900;
+            }
         }
 
         .botones-categorias {
@@ -36,11 +63,7 @@
 
                 mat-icon {
                     font-size: 18px;
-                    line-height: 1;
                     vertical-align: middle;
-                    display: inline-flex;
-                    align-items: center;
-                    justify-content: center;
                 }
 
                 &.activo {
@@ -56,20 +79,6 @@
                 &:hover {
                     background-color: #ffe4cc;
                 }
-            }
-        }
-
-        .borrar {
-            background-color: #ff7b1a;
-            color: white;
-            border: none;
-            padding: 0.6rem 1rem;
-            border-radius: 6px;
-            font-weight: bold;
-            cursor: pointer;
-
-            &:hover {
-                background-color: #e86900;
             }
         }
     }
@@ -142,30 +151,15 @@
                     span {
                         font-weight: 500;
                     }
+
+                    .bookmark-icon {
+                        font-size: 20px;
+                        color: #444;
+                        margin-left: 0.5rem;
+                        vertical-align: middle;
+                    }
                 }
             }
-        }
-    }
-
-    .likes {
-        display: flex;
-        align-items: center;
-        gap: 0.3rem;
-        color: #e53935;
-
-        mat-icon {
-            font-size: 20px;
-        }
-
-        span {
-            font-weight: 500;
-        }
-
-        .bookmark-icon {
-            font-size: 20px;
-            color: #444;
-            margin-left: 0.5rem;
-            vertical-align: middle;
         }
     }
 
@@ -177,6 +171,7 @@
             align-items: stretch;
 
             input,
+            select,
             .borrar {
                 width: 100%;
             }
@@ -216,4 +211,32 @@
             }
         }
     }
+}
+
+.scroll-top {
+    position: fixed;
+    bottom: 5rem;
+    right: 2rem;
+    background-color: #ff7b1a;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 48px;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+    transition: background-color 0.3s ease;
+
+    mat-icon {
+        font-size: 28px;
+    }
+
+    &:hover {
+        background-color: #e86900;
+    }
+
+    z-index: 1000;
 }
