@@ -37,13 +37,12 @@ export class LoginComponent {
 
     const credentials = this.formLogin.value;
     const queryRedirect = this.route.snapshot.queryParamMap.get('redirectTo');
-    const redirectTo = queryRedirect || localStorage.getItem('redirectTo') || '/';
+    const redirectTo = queryRedirect || '/';
 
     this.authService.login(credentials).subscribe({
       next: (res: { token: string }) => {
         localStorage.setItem('token', res.token);
-        localStorage.removeItem('redirectTo');
-        this.router.navigate([redirectTo]);
+        this.router.navigateByUrl(redirectTo, { replaceUrl: true });
       },
       error: () => {
         this.errorMessage = 'Usuario o contraseña inválidos';

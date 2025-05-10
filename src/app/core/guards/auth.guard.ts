@@ -7,9 +7,8 @@ export class AuthGuard implements CanActivate {
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean | UrlTree {
     const token = localStorage.getItem('token');
-    if (token) {
-      return true;
-    }
+
+    if (token) return true;
 
     localStorage.setItem('redirectTo', state.url);
 

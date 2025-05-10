@@ -1,0 +1,62 @@
+<div class="detalle-receta crear-receta">
+    <h1>Crear nueva receta</h1>
+
+    <form (ngSubmit)="guardarReceta()" #formReceta="ngForm">
+
+        <!-- Imagen -->
+        <div class="imagen-input">
+            <label for="imagen">Imagen de la receta</label>
+            <input type="file" id="imagen" (change)="onImageChange($event)" />
+            <img *ngIf="imagenPreview" [src]="imagenPreview" alt="Vista previa" />
+        </div>
+
+        <!-- Título y descripción -->
+        <input type="text" placeholder="Título de la receta" [(ngModel)]="receta.title" name="title" required />
+        <textarea placeholder="Descripción..." [(ngModel)]="receta.description" name="description" required></textarea>
+
+        <!-- Categoría como botones -->
+        <div class="categorias-botones">
+            <button type="button" *ngFor="let cat of categorias"
+                [class.selected]="receta.category === cat.toUpperCase()" (click)="seleccionarCategoria(cat)">
+                <span>+</span> {{ cat }}
+            </button>
+        </div>
+
+        <!-- Ingredientes -->
+        <section class="ingredientes">
+            <h2>Ingredientes</h2>
+            <hr class="separador" />
+            <div class="input-inline">
+                <input [(ngModel)]="nuevoIngrediente" placeholder="Añadir ingrediente" name="nuevoIngrediente" />
+                <button type="button" (click)="agregarIngrediente()">+</button>
+            </div>
+            <ul class="chips">
+                <li *ngFor="let ing of ingredientes; let i = index">
+                    {{ ing }}
+                    <button type="button" (click)="eliminarIngrediente(i)">×</button>
+                </li>
+            </ul>
+        </section>
+
+        <!-- Pasos -->
+        <section class="pasos">
+            <h2>Pasos</h2>
+            <hr class="separador" />
+            <div class="input-inline">
+                <input [(ngModel)]="nuevoPaso" placeholder="Añadir paso" name="nuevoPaso" />
+                <button type="button" (click)="agregarPaso()">+</button>
+            </div>
+            <ol>
+                <li *ngFor="let paso of receta.steps; let i = index">
+                    {{ paso }}
+                    <button type="button" (click)="eliminarPaso(i)">×</button>
+                </li>
+            </ol>
+        </section>
+
+        <!-- Botón -->
+        <div class="acciones">
+            <button type="submit" [disabled]="!formReceta.form.valid">Guardar receta</button>
+        </div>
+    </form>
+</div>

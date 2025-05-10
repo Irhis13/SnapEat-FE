@@ -9,6 +9,6 @@ import { Component } from '@angular/core';
 })
 export class FooterComponent {
   constructor() {
-    console.log('FooterComponent loaded');
+    // Constructor footer
   }
 }

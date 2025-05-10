@@ -1,0 +1,272 @@
+.detalle-receta.crear-receta {
+    max-width: 800px;
+    margin: 2rem auto;
+    padding: 2rem;
+    background: #fff;
+    border-radius: 12px;
+    border: 1px solid #ddd;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.04);
+    font-family: 'Roboto', sans-serif;
+
+    h1 {
+        font-size: 1.8rem;
+        font-weight: 600;
+        text-align: center;
+        margin: 1.2rem 0 2rem;
+        position: relative;
+
+        &::after {
+            content: '';
+            display: block;
+            width: 60px;
+            height: 3px;
+            background-color: #ff7b1a;
+            margin: 0.5rem auto 0;
+            border-radius: 2px;
+        }
+    }
+
+    h2 {
+        font-size: 1.3rem;
+        margin-bottom: 0.4rem;
+        color: #333;
+        position: relative;
+
+        &::after {
+            content: '';
+            display: block;
+            width: 60px;
+            height: 3px;
+            background-color: #ff7b1a;
+            margin: 0.3rem 0 1rem;
+            border-radius: 2px;
+        }
+    }
+
+    input[type="text"],
+    textarea,
+    select {
+        width: 100%;
+        padding: 0.8rem;
+        font-size: 1rem;
+        border: 1px solid #ccc;
+        border-radius: 8px;
+        margin-bottom: 1.2rem;
+        font-family: inherit;
+        resize: vertical;
+    }
+
+    .imagen-input {
+        margin-bottom: 1.5rem;
+
+        label {
+            font-weight: 600;
+            display: block;
+            margin-bottom: 0.4rem;
+        }
+
+        input[type="file"] {
+            display: block;
+            margin-bottom: 0.8rem;
+        }
+
+        img {
+            max-height: 300px;
+            width: 100%;
+            object-fit: cover;
+            border-radius: 10px;
+            margin-top: 0.8rem;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+        }
+    }
+
+    .categoria-autor {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        margin-bottom: 2rem;
+
+        label {
+            font-weight: 600;
+            margin-bottom: 0.4rem;
+        }
+    }
+
+    section {
+        margin-bottom: 2rem;
+    }
+
+    .acciones {
+        text-align: center;
+        margin-top: 2rem;
+
+        button {
+            background-color: #ff7b1a;
+            color: white;
+            font-weight: bold;
+            padding: 0.8rem 2rem;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            cursor: pointer;
+
+            &:hover {
+                background-color: #e86900;
+            }
+
+            &:disabled {
+                background-color: #ccc;
+                cursor: not-allowed;
+            }
+        }
+    }
+
+    .categorias-botones {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.75rem;
+        margin: 1rem 0;
+
+        button {
+            background-color: #f4f4f4;
+            border: 2px solid #ccc;
+            border-radius: 999px;
+            padding: 0.4rem 1.2rem;
+            font-weight: 500;
+            font-size: 0.95rem;
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+            cursor: pointer;
+            transition: all 0.2s ease-in-out;
+
+            span {
+                font-size: 1.2rem;
+            }
+
+            &.selected {
+                background-color: #ff7b1a;
+                color: white;
+                border-color: #ff7b1a;
+            }
+
+            &:hover {
+                border-color: #ff7b1a;
+            }
+        }
+    }
+
+    .input-inline {
+        display: flex;
+        align-items: center;
+        gap: 0.6rem;
+        margin-bottom: 1rem;
+
+        input {
+            flex: 1;
+        }
+
+        button {
+            background-color: #ff7b1a;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 32px;
+            height: 32px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            &:hover {
+                background-color: #e86900;
+            }
+        }
+    }
+
+    .chips {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+        list-style: none;
+        padding-left: 0;
+
+        li {
+            background-color: #f0f0f0;
+            padding: 0.4rem 0.8rem;
+            border-radius: 999px;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.95rem;
+
+            button {
+                background: none;
+                border: none;
+                font-size: 1.1rem;
+                font-weight: bold;
+                color: #888;
+                border-radius: 50%;
+                width: 20px;
+                height: 20px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                cursor: pointer;
+                transition: color 0.2s;
+
+                &:hover {
+                    color: #ff7b1a;
+                }
+            }
+        }
+    }
+
+    ol {
+        padding-left: 1.5rem;
+
+        li {
+            margin-bottom: 0.6rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            button {
+                background: none;
+                border: none;
+                font-size: 1.1rem;
+                font-weight: bold;
+                color: #888;
+                border-radius: 50%;
+                width: 20px;
+                height: 20px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                cursor: pointer;
+
+                &:hover {
+                    color: #ff7b1a;
+                }
+            }
+        }
+    }
+
+    @media (max-width: 600px) {
+        padding: 1.2rem;
+
+        h1 {
+            font-size: 1.5rem;
+        }
+
+        h2 {
+            font-size: 1.2rem;
+        }
+
+        img {
+            max-height: 200px;
+        }
+    }
+}

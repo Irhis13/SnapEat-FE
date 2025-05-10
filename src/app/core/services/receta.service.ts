@@ -78,4 +78,8 @@ export class RecipeService {
     isFavorited(recipeId: number): Observable<boolean> {
         return this.http.get<boolean>(`${this.favoritesUrl}/exists/${recipeId}`);
     }
+
+    crearRecetaFormData(formData: FormData): Observable<any> {
+        return this.http.post(`${this.baseUrl}`, formData);
+    }
 }

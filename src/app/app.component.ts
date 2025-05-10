@@ -17,7 +17,7 @@ export class AppComponent implements OnInit {
   title = 'SnapEat';
   showHeaderFooter: boolean = true;
 
-  hiddenRoutes = ['/login', '/register', '/guestArea'];
+  hiddenRoutes = ['/login', '/register', '/guestArea', '/receta/'];
 
   @HostBinding('class.sin-header') get sinHeader() {
     return !this.showHeaderFooter;
@@ -30,7 +30,7 @@ export class AppComponent implements OnInit {
       .pipe(filter(event => event instanceof NavigationEnd))
       .subscribe((event: NavigationEnd) => {
         const urlWithoutParams = event.urlAfterRedirects.split('?')[0];
-        this.showHeaderFooter = !this.hiddenRoutes.includes(urlWithoutParams);
+        this.showHeaderFooter = !this.hiddenRoutes.some(route => urlWithoutParams.startsWith(route));
       });
   }
 }

@@ -29,7 +29,15 @@
     <app-categorias-destacadas></app-categorias-destacadas>
 </section>
 
-<section class="cta-crear-receta" *ngIf="isLoggedIn">
+<button class="boton-flotante" (click)="mostrarCTA = !mostrarCTA">
+    <mat-icon>{{ mostrarCTA ? 'close' : 'add' }}</mat-icon>
+</button>
+
+<div class="cta-expandido" *ngIf="mostrarCTA" [@fadeInOut]>
     <h2>¿Tienes una receta que compartir?</h2>
-    <button (click)="crearReceta()">Crear receta</button>
-</section>
+    <p>¡Comparte tus mejores creaciones con la comunidad!</p>
+    <button class="btn-crear" (click)="crearReceta()">
+        <mat-icon>add_circle_outline</mat-icon>
+        Crear receta
+    </button>
+</div>
