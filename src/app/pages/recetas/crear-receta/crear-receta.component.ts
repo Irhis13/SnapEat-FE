@@ -2,8 +2,8 @@ import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
-import { Router } from '@angular/router';
-import { RecipeService } from 'app/core/services/receta.service';
+import { ActivatedRoute, Router } from '@angular/router';
+import { RecipeService, Recipe } from 'app/core/services/receta.service';
 
 @Component({
   selector: 'app-crear-receta',
@@ -13,27 +13,50 @@ import { RecipeService } from 'app/core/services/receta.service';
   styleUrls: ['./crear-receta.component.scss']
 })
 export class CrearRecetaComponent implements OnInit {
-  receta = {
+  receta: Omit<Recipe, 'id' | 'hashedId' | 'authorName' | 'authorId' | 'likes' | 'likedByCurrentUser' | 'favoritedByCurrentUser' | 'owner'> = {
     title: '',
     description: '',
-    category: '',
+    category: 'COMIDA',
     ingredients: '',
     imageUrl: '',
-    steps: [] as string[]
+    steps: []
   };
+
+  isEditMode = false;
+  hashedId: string | null = null;
 
   nuevoIngrediente = '';
   ingredientes: string[] = [];
   nuevoPaso = '';
   imagenPreview: string | null = null;
-  categorias = ['Comida', 'Postre', 'Empanada', 'Vegetariano'];
+  categorias: ('COMIDA' | 'POSTRE' | 'EMPANADA' | 'VEGETARIANO')[] = ['COMIDA', 'POSTRE', 'EMPANADA', 'VEGETARIANO'];
 
   constructor(
     private recetaService: RecipeService,
-    private router: Router
+    private router: Router,
+    private route: ActivatedRoute
   ) { }
 
-  ngOnInit(): void { }
+  ngOnInit(): void {
+    this.hashedId = this.route.snapshot.paramMap.get('id');
+    this.isEditMode = !!this.hashedId;
+
+    if (this.isEditMode && this.hashedId) {
+      this.recetaService.getById(this.hashedId).subscribe((data: Recipe) => {
+        this.receta = {
+          title: data.title,
+          description: data.description,
+          category: data.category,
+          ingredients: data.ingredients,
+          imageUrl: data.imageUrl,
+          steps: [...data.steps]
+        };
+
+        this.ingredientes = (data.ingredients || '').split(',').map(i => i.trim());
+        this.imagenPreview = data.imageUrl;
+      });
+    }
+  }
 
   onImageChange(event: any): void {
     const file = event.target.files[0];
@@ -45,10 +68,6 @@ export class CrearRecetaComponent implements OnInit {
       };
       reader.readAsDataURL(file);
     }
-  }
-
-  seleccionarCategoria(categoria: string) {
-    this.receta.category = categoria.toUpperCase();
   }
 
   capitalize(text: string): string {
@@ -82,24 +101,45 @@ export class CrearRecetaComponent implements OnInit {
   }
 
   guardarReceta(): void {
-    const formData = new FormData();
+    // Validación básica
+    if (!this.receta.title || !this.receta.description || !this.receta.category || this.ingredientes.length === 0 || this.receta.steps.length === 0) {
+      alert('Por favor, completa todos los campos obligatorios.');
+      return;
+    }
 
-    const recetaSinImagen = { ...this.receta };
-    const imagenBlob = this.dataURLtoBlob(this.imagenPreview!);
+    const formData = new FormData();
+    const recetaSinImagen = {
+      ...this.receta,
+      category: this.receta.category
+    };
+
+    const imagenBlob = this.imagenPreview ? this.dataURLtoBlob(this.imagenPreview) : null;
 
     formData.append('receta', new Blob([JSON.stringify(recetaSinImagen)], { type: 'application/json' }));
     if (imagenBlob) {
       formData.append('imagen', imagenBlob, 'imagen.png');
     }
 
-    this.recetaService.crearRecetaFormData(formData).subscribe({
-      next: () => this.router.navigate(['/recetas']),
-      error: err => {
-        console.error('Error al crear receta', err);
-        alert('Ocurrió un error al guardar la receta. Intenta iniciar sesión nuevamente.');
-        this.router.navigate(['/login']);
-      }
-    });
+    if (this.isEditMode && this.hashedId) {
+      this.recetaService.editRecipe(this.hashedId, recetaSinImagen).subscribe({
+        next: () => this.router.navigate(['/recetas', this.hashedId]),
+        error: (err) => {
+          console.error('Error al editar receta', err);
+          alert('No se pudo editar la receta.');
+        }
+      });
+    } else {
+      this.recetaService.crearRecetaFormData(formData).subscribe({
+        next: (response) => {
+          this.router.navigate(['/recetas', response.hashedId]);
+        },
+        error: (err) => {
+          console.error('Error al crear receta', err);
+          alert('Ocurrió un error al guardar la receta. Intenta iniciar sesión nuevamente.');
+          this.router.navigate(['/login']);
+        }
+      });
+    }
   }
 
   dataURLtoBlob(dataUrl: string): Blob {

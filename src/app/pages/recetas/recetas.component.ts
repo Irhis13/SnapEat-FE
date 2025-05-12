@@ -108,8 +108,8 @@ export class RecetasComponent implements OnInit {
     this.filtrar();
   }
 
-  verDetalle(id: number): void {
-    this.router.navigate(['/recetas', id]);
+  verDetalle(hashedId: string): void {
+    this.router.navigate(['/recetas', hashedId]);
   }
 
   ngOnDestroy(): void {

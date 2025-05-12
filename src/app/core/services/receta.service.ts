@@ -4,16 +4,18 @@ import { Observable } from 'rxjs';
 
 export interface Recipe {
     id: number;
+    hashedId: string;
     title: string;
     description: string;
     imageUrl: string;
     authorName: string;
+    authorId: number; 
     category: 'COMIDA' | 'POSTRE' | 'EMPANADA' | 'VEGETARIANO';
     ingredients: string;
     steps: string[];
     likes: number;
     likedByCurrentUser: boolean;
-    isOwner: boolean;
+    owner: boolean;
     favoritedByCurrentUser: boolean;
 }
 
@@ -39,8 +41,8 @@ export class RecipeService {
         return this.http.get<Recipe[]>(`${this.baseUrl}/top-liked`);
     }
 
-    getById(id: number): Observable<Recipe> {
-        return this.http.get<Recipe>(`${this.baseUrl}/${id}`);
+    getById(hashedId: string): Observable<Recipe> {
+        return this.http.get<Recipe>(`${this.baseUrl}/${hashedId}`);
     }
 
     getByTitle(value: string): Observable<Recipe[]> {
@@ -51,35 +53,39 @@ export class RecipeService {
         return this.http.get<Recipe[]>(`${this.baseUrl}/ingredient?value=${value}`);
     }
 
-    getByAuthor(authorId: number): Observable<Recipe[]> {
-        return this.http.get<Recipe[]>(`${this.baseUrl}/author/${authorId}`);
+    getByAuthor(authorHashedId: string): Observable<Recipe[]> {
+        return this.http.get<Recipe[]>(`${this.baseUrl}/author/${authorHashedId}`);
     }
 
-    toggleLike(recipeId: number): Observable<any> {
-        return this.http.post(`${this.likesUrl}/${recipeId}`, {});
+    toggleLike(hashedId: string): Observable<any> {
+        return this.http.post(`${this.likesUrl}/${hashedId}`, {});
     }
 
-    toggleUnlike(recipeId: number): Observable<any> {
-        return this.http.delete(`${this.likesUrl}/${recipeId}`);
+    toggleUnlike(hashedId: string): Observable<any> {
+        return this.http.delete(`${this.likesUrl}/${hashedId}`);
     }
 
-    delete(id: number): Observable<void> {
-        return this.http.delete<void>(`${this.baseUrl}/${id}`);
+    delete(hashedId: string): Observable<void> {
+        return this.http.delete<void>(`${this.baseUrl}/${hashedId}`);
     }
 
-    toggleFavorite(recipeId: number): Observable<void> {
-        return this.http.post<void>(`${this.favoritesUrl}/${recipeId}`, {});
+    toggleFavorite(hashedId: string): Observable<void> {
+        return this.http.post<void>(`${this.favoritesUrl}/${hashedId}`, {});
     }
 
-    toggleUnfavorite(recipeId: number): Observable<void> {
-        return this.http.delete<void>(`${this.favoritesUrl}/${recipeId}`);
+    toggleUnfavorite(hashedId: string): Observable<void> {
+        return this.http.delete<void>(`${this.favoritesUrl}/${hashedId}`);
     }
 
-    isFavorited(recipeId: number): Observable<boolean> {
-        return this.http.get<boolean>(`${this.favoritesUrl}/exists/${recipeId}`);
+    isFavorited(hashedId: string): Observable<boolean> {
+        return this.http.get<boolean>(`${this.favoritesUrl}/exists/${hashedId}`);
     }
 
     crearRecetaFormData(formData: FormData): Observable<any> {
         return this.http.post(`${this.baseUrl}`, formData);
+    }
+
+    editRecipe(hashedId: string, recipe: Partial<Recipe>): Observable<Recipe> {
+        return this.http.put<Recipe>(`${this.baseUrl}/${hashedId}`, recipe);
     }
 }

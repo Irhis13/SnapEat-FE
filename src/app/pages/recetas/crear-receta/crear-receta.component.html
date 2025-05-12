@@ -1,5 +1,5 @@
 <div class="detalle-receta crear-receta">
-    <h1>Crear nueva receta</h1>
+    <h1>{{ isEditMode ? 'Editar receta' : 'Crear nueva receta' }}</h1>
 
     <form (ngSubmit)="guardarReceta()" #formReceta="ngForm">
 
@@ -15,10 +15,11 @@
         <textarea placeholder="Descripción..." [(ngModel)]="receta.description" name="description" required></textarea>
 
         <!-- Categoría como botones -->
+        <!-- Categoría como botones -->
         <div class="categorias-botones">
-            <button type="button" *ngFor="let cat of categorias"
-                [class.selected]="receta.category === cat.toUpperCase()" (click)="seleccionarCategoria(cat)">
-                <span>+</span> {{ cat }}
+            <button type="button" *ngFor="let cat of categorias" [class.selected]="receta.category === cat"
+                (click)="receta.category = cat">
+            <span>+</span> {{ cat.toLowerCase() | titlecase }}
             </button>
         </div>
 
@@ -56,7 +57,9 @@
 
         <!-- Botón -->
         <div class="acciones">
-            <button type="submit" [disabled]="!formReceta.form.valid">Guardar receta</button>
+            <button type="submit" [disabled]="!formReceta.form.valid">
+                {{ isEditMode ? 'Guardar cambios' : 'Guardar receta' }}     
+            </button>
         </div>
     </form>
 </div>

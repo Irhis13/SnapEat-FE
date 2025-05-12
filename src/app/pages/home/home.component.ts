@@ -5,6 +5,7 @@ import { CategoriasDestacadasComponent } from 'app/pages/home/components/categor
 import { Router } from '@angular/router';
 import { MatIconModule } from '@angular/material/icon';
 import { trigger, transition, style, animate } from '@angular/animations';
+import Hashids from 'hashids';
 
 @Component({
   selector: 'app-home',
@@ -29,6 +30,7 @@ export class HomeComponent implements OnInit {
   topLikedRecipes: Recipe[] = [];
   isLoggedIn = false;
   mostrarCTA = false;
+  private hashids = new Hashids('tu_salt_secreta', 8);
 
   constructor(private recipeService: RecipeService, private router: Router) { }
 
@@ -43,7 +45,7 @@ export class HomeComponent implements OnInit {
       error: (err) => console.error('Error cargando top recetas', err)
     });
 
-    this.isLoggedIn = !!localStorage.getItem('token'); 
+    this.isLoggedIn = !!localStorage.getItem('token');
   }
 
   crearReceta(): void {
@@ -51,6 +53,7 @@ export class HomeComponent implements OnInit {
   }
 
   verDetalle(id: number): void {
-    this.router.navigate(['/recetas', id]);
+    const hashedId = this.hashids.encode(id);
+    this.router.navigate(['/recetas', hashedId]);
   }
 }

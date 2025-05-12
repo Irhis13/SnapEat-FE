@@ -27,7 +27,7 @@
         <h2 class="section-title">Listado de recetas</h2>
 
         <div class="recipes-grid">
-            <div *ngFor="let receta of recetasFiltradas" class="recipe-card-horizontal" (click)="verDetalle(receta.id)">
+            <div *ngFor="let receta of recetasFiltradas" class="recipe-card-horizontal" (click)="verDetalle(receta.hashedId)">
                 <img [src]="receta.imageUrl" [alt]="receta.title" />
                 <div class="card-info">
                     <h3>{{ receta.title }}</h3>

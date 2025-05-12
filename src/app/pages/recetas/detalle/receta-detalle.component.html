@@ -32,23 +32,30 @@
     </section>
 
     <section class="acciones">
-        <button (click)="toggleLike()">
-            <mat-icon color="warn">{{ liked ? 'favorite' : 'favorite_border' }}</mat-icon>
+        <button class="btn-action" aria-label="Me gusta" (click)="toggleLike()">
+            <mat-icon [color]="liked ? 'warn' : undefined">
+                {{ liked ? 'favorite' : 'favorite_border' }}
+            </mat-icon>
             <span>{{ receta.likes }}</span>
         </button>
-    
-        <button (click)="toggleFavorite()" class="favorite-button">
-            <mat-icon>{{ isFavorited ? 'bookmark' : 'bookmark_border' }}</mat-icon>
+
+        <button class="btn-action" aria-label="Favorito" (click)="toggleFavorite()">
+            <mat-icon>
+                {{ isFavorited ? 'bookmark' : 'bookmark_border' }}
+            </mat-icon>
             <span>{{ isFavorited ? 'Guardado' : 'Añadir a favoritos' }}</span>
         </button>
-    
+
         <ng-container *ngIf="isAuthor">
-            <button (click)="editarReceta()">
+            <button class="btn-action" aria-label="Editar receta" (click)="editarReceta()">
                 <mat-icon>edit</mat-icon>
+                <span>Editar</span>
             </button>
-            <button (click)="eliminarReceta()">
-                <mat-icon color="warn">delete</mat-icon>
+
+            <button class="btn-action btn-delete" aria-label="Eliminar receta" (click)="eliminarReceta()">
+                <mat-icon>delete</mat-icon>
+                <span>Eliminar</span>
             </button>
         </ng-container>
     </section>
-</div>
+    </div>
