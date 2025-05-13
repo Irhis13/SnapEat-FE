@@ -88,4 +88,8 @@ export class RecipeService {
     editRecipe(hashedId: string, recipe: Partial<Recipe>): Observable<Recipe> {
         return this.http.put<Recipe>(`${this.baseUrl}/${hashedId}`, recipe);
     }
+
+    editRecipeFormData(hashedId: string, formData: FormData): Observable<any> {
+        return this.http.put(`${this.baseUrl}/${hashedId}`, formData);
+    }
 }

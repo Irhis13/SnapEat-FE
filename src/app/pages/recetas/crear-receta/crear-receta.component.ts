@@ -2,8 +2,10 @@ import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
 import { RecipeService, Recipe } from 'app/core/services/receta.service';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-crear-receta',
@@ -29,12 +31,14 @@ export class CrearRecetaComponent implements OnInit {
   ingredientes: string[] = [];
   nuevoPaso = '';
   imagenPreview: string | null = null;
+  imagenArchivo: File | null = null;
   categorias: ('COMIDA' | 'POSTRE' | 'EMPANADA' | 'VEGETARIANO')[] = ['COMIDA', 'POSTRE', 'EMPANADA', 'VEGETARIANO'];
 
   constructor(
     private recetaService: RecipeService,
     private router: Router,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private snackBar: MatSnackBar
   ) { }
 
   ngOnInit(): void {
@@ -59,14 +63,22 @@ export class CrearRecetaComponent implements OnInit {
   }
 
   onImageChange(event: any): void {
-    const file = event.target.files[0];
+    const file: File = event.target.files[0];
+    const maxSizeMB = 2;
+
     if (file) {
+      if (file.size > maxSizeMB * 1024 * 1024) {
+        alert(`La imagen supera los ${maxSizeMB}MB permitidos.`);
+        return;
+      }
+
       const reader = new FileReader();
       reader.onload = () => {
         this.imagenPreview = reader.result as string;
-        this.receta.imageUrl = this.imagenPreview;
       };
       reader.readAsDataURL(file);
+
+      this.imagenArchivo = file; // Guardamos el archivo real
     }
   }
 
@@ -100,57 +112,66 @@ export class CrearRecetaComponent implements OnInit {
     this.receta.steps.splice(index, 1);
   }
 
-  guardarReceta(): void {
-    // Validación básica
-    if (!this.receta.title || !this.receta.description || !this.receta.category || this.ingredientes.length === 0 || this.receta.steps.length === 0) {
-      alert('Por favor, completa todos los campos obligatorios.');
-      return;
-    }
-
-    const formData = new FormData();
-    const recetaSinImagen = {
-      ...this.receta,
-      category: this.receta.category
-    };
-
-    const imagenBlob = this.imagenPreview ? this.dataURLtoBlob(this.imagenPreview) : null;
-
-    formData.append('receta', new Blob([JSON.stringify(recetaSinImagen)], { type: 'application/json' }));
-    if (imagenBlob) {
-      formData.append('imagen', imagenBlob, 'imagen.png');
-    }
-
-    if (this.isEditMode && this.hashedId) {
-      this.recetaService.editRecipe(this.hashedId, recetaSinImagen).subscribe({
-        next: () => this.router.navigate(['/recetas', this.hashedId]),
-        error: (err) => {
-          console.error('Error al editar receta', err);
-          alert('No se pudo editar la receta.');
-        }
-      });
-    } else {
-      this.recetaService.crearRecetaFormData(formData).subscribe({
-        next: (response) => {
-          this.router.navigate(['/recetas', response.hashedId]);
-        },
-        error: (err) => {
-          console.error('Error al crear receta', err);
-          alert('Ocurrió un error al guardar la receta. Intenta iniciar sesión nuevamente.');
-          this.router.navigate(['/login']);
-        }
-      });
-    }
+  borrarImagen(): void {
+    this.imagenPreview = null;
+    this.imagenArchivo = null;
+    this.receta.imageUrl = '';
   }
 
-  dataURLtoBlob(dataUrl: string): Blob {
-    const arr = dataUrl.split(',');
-    const mime = arr[0].match(/:(.*?);/)![1];
-    const bstr = atob(arr[1]);
-    let n = bstr.length;
-    const u8arr = new Uint8Array(n);
-    while (n--) {
-      u8arr[n] = bstr.charCodeAt(n);
+  validarFormulario(): boolean {
+    if (!this.receta.title || !this.receta.description || !this.receta.category || this.ingredientes.length === 0 || this.receta.steps.length === 0) {
+      this.mostrarMensaje('Por favor, completa todos los campos obligatorios.');
+      return false;
     }
-    return new Blob([u8arr], { type: mime });
+    return true;
+  }
+
+  crearFormData(receta: any, imagen?: File | null): FormData {
+    const formData = new FormData();
+    formData.append('receta', new Blob([JSON.stringify(receta)], { type: 'application/json' }));
+    if (imagen) {
+      formData.append('imagen', imagen);
+    }
+    return formData;
+  }
+
+  enviarReceta(request: Observable<any>): void {
+    request.subscribe({
+      next: (response: any) => {
+        const redirectId = response?.hashedId || this.hashedId;
+        this.mostrarMensaje('Receta guardada correctamente');
+        this.router.navigate(['/recetas', redirectId]);
+      },
+      error: (err) => {
+        console.error('Error al guardar la receta', err);
+        this.mostrarMensaje('Error al guardar la receta. Intenta iniciar sesión nuevamente.');
+        this.router.navigate(['/login']);
+      }
+    });
+  }
+
+  guardarReceta(): void {
+    if (!this.validarFormulario()) return;
+
+    const recetaFinal = {
+      ...this.receta,
+      ingredients: this.ingredientes.join(', ')
+    };
+
+    const request = this.isEditMode && this.hashedId
+      ? this.imagenArchivo
+        ? this.recetaService.editRecipeFormData(this.hashedId, this.crearFormData(recetaFinal, this.imagenArchivo))
+        : this.recetaService.editRecipe(this.hashedId, recetaFinal)
+      : this.recetaService.crearRecetaFormData(this.crearFormData(recetaFinal, this.imagenArchivo));
+
+    this.enviarReceta(request);
+  }
+
+  mostrarMensaje(mensaje: string): void {
+    this.snackBar.open(mensaje, 'Cerrar', {
+      duration: 3000,
+      horizontalPosition: 'center',
+      verticalPosition: 'top'
+    });
   }
 }
