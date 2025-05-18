@@ -78,7 +78,7 @@ export class CrearRecetaComponent implements OnInit {
       };
       reader.readAsDataURL(file);
 
-      this.imagenArchivo = file; // Guardamos el archivo real
+      this.imagenArchivo = file;
     }
   }
 

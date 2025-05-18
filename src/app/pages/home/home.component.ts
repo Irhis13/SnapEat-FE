@@ -62,10 +62,8 @@ export class HomeComponent implements OnInit {
   };
 
   constructor(private recipeService: RecipeService, private router: Router) {
-    // Avanzar carrusel automáticamente cada 5s
     setInterval(() => this.nextImage(), 5000);
 
-    // Mostrar carrusel solo en /
     this.router.events
       .pipe(filter(event => event instanceof NavigationEnd))
       .subscribe((event: NavigationEnd) => {

@@ -43,7 +43,7 @@
             padding: 1rem;
             text-align: center;
             cursor: pointer;
-            width: 260px; // ← ancho fijo consistente
+            width: 260px;
             flex-shrink: 0;
             display: flex;
             flex-direction: column;
@@ -60,7 +60,7 @@
                 margin-top: 1rem;
                 font-size: 1.2rem;
                 font-weight: bold;
-                min-height: 48px; // ← asegura altura estable si hay más o menos texto
+                min-height: 48px;
                 display: flex;
                 align-items: center;
                 justify-content: center;
@@ -104,7 +104,6 @@
             }         
         }
 
-        // Estilizado opcional del scrollbar
         &::-webkit-scrollbar {
             height: 6px;
         }
@@ -117,7 +116,7 @@
 
     .scroll-top {
         position: fixed;
-        bottom: 6rem; // ✅ elevado para que no choque con el footer
+        bottom: 6rem;
         right: 2rem;
         background-color: #ff7b1a;
         color: white;
