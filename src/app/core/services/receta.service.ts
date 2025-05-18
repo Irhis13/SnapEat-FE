@@ -92,4 +92,8 @@ export class RecipeService {
     editRecipeFormData(hashedId: string, formData: FormData): Observable<any> {
         return this.http.put(`${this.baseUrl}/${hashedId}`, formData);
     }
+
+    getFavoritosUsuario(): Observable<Recipe[]> {
+        return this.http.get<Recipe[]>(this.favoritesUrl);
+    }
 }

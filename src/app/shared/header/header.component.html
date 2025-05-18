@@ -1,23 +1,47 @@
 <header class="header">
     <div class="logo">
-        <img src="assets/images/logo.png" alt="SnapEat Logo" height="50" />
+        <a routerLink="/">
+            <img src="assets/images/logo.png" alt="SnapEat Logo" height="50" />
+        </a>
     </div>
-    <nav class="menu">
-        <a routerLink="/recetas">Recetas</a>
-        <a routerLink="/login">Iniciar sesión</a>
+
+    <button class="menu-toggle" (click)="toggleMobileMenu()">
+        <mat-icon>menu</mat-icon>
+    </button>
+
+    <nav [ngClass]="{ 'menu': true, 'open': isMobileMenuOpen }">
+        <a routerLink="/recetas" (click)="closeMenu()">
+            <mat-icon>menu_book</mat-icon>
+            <span>Recetas</span>
+        </a>
+
+        <ng-container *ngIf="!isLoggedIn">
+            <a routerLink="/login" (click)="closeMenu()">                
+                <mat-icon>login</mat-icon>
+                <span>Iniciar sesión</span>
+            </a>
+        </ng-container>
+
+        <ng-container *ngIf="isLoggedIn">
+            <a routerLink="/recetas/crear" (click)="closeMenu()">
+                <mat-icon>add_circle</mat-icon>
+                <span>Crear receta</span>
+            </a>
+
+            <a routerLink="/favoritos" (click)="closeMenu()">
+                <mat-icon>bookmark</mat-icon>
+                <span>Favoritos</span>          
+            </a>
+
+            <a routerLink="/perfil" (click)="closeMenu()">
+                <mat-icon>account_circle</mat-icon>
+                <span>Perfil</span>
+            </a>
+
+            <a href="#" (click)="logout(); closeMenu()">
+                <mat-icon>logout</mat-icon>
+                <span>Cerrar sesión</span>
+            </a>
+        </ng-container>
     </nav>
 </header>
-
-<div class="carousel" *ngIf="showCarousel">
-    <button class="arrow left" (click)="prevImage()">‹</button>
-
-    <img [src]="images[currentIndex].url" class="carousel-image" (click)="goToTipo(images[currentIndex].tipo)"
-        alt="Imagen carrusel" />
-
-    <button class="arrow right" (click)="nextImage()">›</button>
-
-    <div class="overlay-text">
-        <h2>{{ currentOverlay.title }}</h2>
-        <p>{{ currentOverlay.subtitle }}</p>
-    </div>
-</div>

@@ -1,3 +1,17 @@
+<div class="carousel">
+    <button class="arrow left" (click)="prevImage()">‹</button>
+
+    <img [src]="images[currentIndex].url" class="carousel-image" (click)="goToTipo(images[currentIndex].tipo)"
+        alt="Imagen carrusel" />
+
+    <button class="arrow right" (click)="nextImage()">›</button>
+
+    <div class="overlay-text">
+        <h2>{{ currentOverlay.title }}</h2>
+        <p>{{ currentOverlay.subtitle }}</p>
+    </div>
+</div>
+
 <section class="latest-recipes-section">
     <h2 class="section-title">Últimas recetas</h2>
 

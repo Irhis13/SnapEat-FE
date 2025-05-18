@@ -1,0 +1,38 @@
+<div class="favoritos-page container-contenido">
+    <h2 class="section-title">Recetas favoritas</h2>
+
+    <mat-accordion multi class="acordeon-categorias">
+        <mat-expansion-panel *ngFor="let grupo of favoritosPorCategoria">
+            <mat-expansion-panel-header>
+                <mat-panel-title>
+                    <mat-icon>
+                        {{ categoriaIconos[grupo.categoria.toLowerCase()] || 'category' }}
+                    </mat-icon>
+                    {{ grupo.categoriaNombre }}
+                    <span class="badge">{{ grupo.recetas.length }}</span>
+                </mat-panel-title>
+            </mat-expansion-panel-header>
+
+            <div class="recipe-carousel">
+                <div *ngFor="let receta of grupo.recetas" class="recipe-card" (click)="verDetalle(receta.hashedId)">
+                    <img [src]="receta.imageUrl" [alt]="receta.title" />
+                    <h3>{{ receta.title }}</h3>
+                    <p>{{ receta.description }}</p>
+                    <small>Por {{ receta.authorName }}</small>
+                    <div class="likes">
+                        <mat-icon color="warn">
+                            {{ receta.likedByCurrentUser ? 'favorite' : 'favorite_border' }}
+                        </mat-icon>
+                        <span>{{ receta.likes || 0 }}</span>
+                    </div>
+                </div>
+            </div>
+        </mat-expansion-panel>
+    </mat-accordion>
+
+    <div class="scroll-wrapper">
+        <button class="scroll-top" *ngIf="showScrollTop" (click)="scrollToTop()" aria-label="Volver arriba">
+            <mat-icon>keyboard_arrow_up</mat-icon> 
+        </button>
+    </div>
+</div>
