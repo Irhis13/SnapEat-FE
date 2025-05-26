@@ -1,0 +1,76 @@
+<div class="perfil-page">
+    <h2 class="section-title">Tu perfil</h2>
+
+    <form (ngSubmit)="guardarCambios()" #perfilForm="ngForm">
+
+        <!-- Foto de perfil -->
+        <div class="perfil-foto">
+            <div class="foto-wrapper" (click)="mostrarSelector = true">
+                <img [src]="fotoUrl || defaultAvatar" alt="Foto de perfil" />
+                <div class="edit-overlay">
+                    <mat-icon>edit</mat-icon>
+                    <span>Editar</span>
+                </div>
+            </div>
+        
+            <!-- Modal de selección de avatar -->
+            <div class="avatar-modal-backdrop" *ngIf="mostrarSelector">
+                <div class="avatar-modal" [class.closing]="modalClosing">
+                    <div class="modal-header">
+                        <h3>Elige tu avatar</h3>
+                        <button type="button" class="close-btn" (click)="cerrarSelector()">×</button>
+                    </div>
+            
+                    <div class="avatar-selection-grid">
+                        <div *ngFor="let avatar of avatars" class="avatar-option" [class.selected]="fotoUrl === avatar">
+                            <img [src]="avatar" (click)="seleccionarAvatar(avatar)" />
+                        
+                            <!-- Solo mostrar para los avatares personalizados -->
+                            <button *ngIf="!defaultAvatars.includes(avatar) && fotoUrl !== avatar" class="remove-btn"
+                                (click)="eliminarAvatarUsuario(avatar, $event)" type="button" title="Eliminar avatar">
+                                <mat-icon>close</mat-icon>
+                            </button>
+                        </div>
+            
+                        <!-- Círculo adicional para subir imagen -->
+                        <div class="avatar-option upload-avatar">
+                            <label for="file-upload">
+                                <mat-icon>add_a_photo</mat-icon>
+                            </label>
+                            <input id="file-upload" type="file" (change)="onFotoSeleccionada($event)" hidden />
+                        </div>
+                    </div>
+                </div>
+            </div>   
+        </div>
+
+        <!-- Email -->
+        <div class="form-group">
+            <label>Email</label>
+            <input type="email" [(ngModel)]="usuario.email" name="email" disabled />
+        </div>
+
+        <!-- Nombre -->
+        <div class="form-group">
+            <label>Nombre</label>
+            <input type="text" [(ngModel)]="usuario.nombre" name="nombre" required />
+        </div>
+
+        <!-- Contraseña -->
+        <div class="form-group">
+            <label>Nueva contraseña</label>
+            <input type="password" [(ngModel)]="nuevaPassword" name="password" />
+        </div>
+
+        <div class="form-group">
+            <label>Confirmar contraseña</label>
+            <input type="password" [(ngModel)]="confirmarPassword" name="confirmarPassword" />
+        </div>
+
+        <!-- Botón -->
+        <div class="acciones">
+            <button type="submit" [disabled]="perfilForm.invalid">Guardar cambios</button>
+        </div>
+
+    </form>
+</div>

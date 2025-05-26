@@ -12,7 +12,7 @@ export const routes: Routes = [
         loadComponent: () => import('./auth/login/login.component').then(m => m.LoginComponent)
     },
     {
-        path: 'register',
+        path: 'registro',
         loadComponent: () => import('./auth/register/register.component').then(m => m.RegisterComponent)
     },
     {
@@ -36,7 +36,13 @@ export const routes: Routes = [
     },
     {
         path: 'favoritos',
-        loadComponent: () => import('./pages/favorites/favorites.component').then(m => m.FavoritesComponent)
+        loadComponent: () => import('./pages/favorites/favorites.component').then(m => m.FavoritesComponent),
+        canActivate: [AuthGuard]
+    },
+    {
+        path: 'perfil',
+        loadComponent: () => import('./pages/profile/profile.component').then(m => m.ProfileComponent),
+        canActivate: [AuthGuard]
     },
     {
         path: '**',
