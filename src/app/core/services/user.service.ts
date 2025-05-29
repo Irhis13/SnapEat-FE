@@ -38,4 +38,10 @@ export class UserService {
             imageUrl: imageUrl
         });
     }
+
+    checkUsernameDisponible(username: string): Observable<boolean> {
+        return this.http.get<boolean>(`${this.apiUrl}/check-username`, {
+            params: { username }
+        });
+    }
 }

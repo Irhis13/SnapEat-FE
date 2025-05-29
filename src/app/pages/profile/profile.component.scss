@@ -81,12 +81,36 @@
             margin-bottom: 0.4rem;
         }
 
-        input {
+        input,
+        select {
             width: 100%;
             padding: 0.8rem;
             border: 1px solid #ccc;
             border-radius: 8px;
             font-size: 1rem;
+            background: #fff;
+            transition: border-color 0.2s;
+
+            &:focus {
+                border-color: #ff7b1a;
+                outline: none;
+            }
+        }
+
+        // Personalizado para el select de género
+        select {
+            appearance: none;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            background: #fff url("data:image/svg+xml;utf8,<svg fill='orange' height='24' viewBox='0 0 24 24' width='24' xmlns='http://www.w3.org/2000/svg'><path d='M7 10l5 5 5-5z'/></svg>") no-repeat right 0.75rem center/1.4rem;
+            cursor: pointer;
+            padding-right: 2.4rem;
+
+            &:disabled {
+                background-color: #f5f5f5;
+                color: #aaa;
+                cursor: not-allowed;
+            }
         }
     }
 
@@ -265,5 +289,229 @@
                 }
             }
         }
-    } 
+    }
+
+    .username-status {
+        font-size: 0.95rem;
+        margin-top: 2px;
+        margin-left: 2px;
+        display: block;
+
+        &.username-error {
+            color: #e74c3c;
+        }
+
+        &.username-valid {
+            color: #27ae60;
+        }
+
+        &.username-info {
+            color: #888;
+        }
+    }
+
+    input:disabled,
+    select:disabled {
+        background: #f3f3f3 !important;
+        color: #b3b3b3;
+        cursor: not-allowed;
+        opacity: 0.7;
+        border: 1px solid #e1e1e1;   
+    }
+
+    .form-group input[type="email"]:disabled {
+        background: #f3f3f3 !important;
+        color: #b3b3b3;
+        cursor: not-allowed;
+        opacity: 0.7;
+        border: 1px solid #e1e1e1;     
+    }
+
+    .show-password-btn {
+        background: #fff3e0;
+        color: #ff7b1a;
+        font-weight: 600;
+        border: 1.5px solid #ff7b1a44;
+        border-radius: 7px;
+        padding: 0.55rem 1.1rem;
+        margin-bottom: 0.6rem;
+        transition: background 0.17s, color 0.17s;
+        cursor: pointer;
+
+        &:hover {
+            background: #ffedd8;
+            color: #e86900;
+        }
+    }
+
+    .password-section {
+        background: #fff7f1;
+        border-radius: 10px;
+        box-shadow: 0 2px 10px rgba(255, 123, 26, 0.07);
+        padding: 1.2rem 1rem 0.8rem 1rem;
+        margin-bottom: 2rem;
+        margin-top: 0.5rem;
+        animation: despliega 0.3s cubic-bezier(.71, 1.7, .77, 1.24);
+
+        .form-group {
+            margin-bottom: 1rem;
+        }
+
+        .password-group {
+            margin-bottom: 1rem;
+        }
+
+        .password-input-wrapper {
+            position: relative;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+
+            input {
+                flex: 1;
+                padding-right: 2.4rem;
+            }
+
+            .toggle-password {
+                position: absolute;
+                right: 0.2rem;
+                top: 50%;
+                transform: translateY(-50%);
+                background: none;
+                border: none;
+                color: #ff7b1a;
+                font-size: 1.4rem;
+                cursor: pointer;
+                padding: 0.2rem 0.4rem;
+                display: flex;
+                align-items: center;
+                border-radius: 5px;
+                transition: background 0.15s;
+
+                &:hover {
+                    background: #ffe3ce;
+                }
+            }
+        }
+
+        small.username-error {
+            color: #e74c3c;
+            font-weight: 500;
+            margin-left: 0.5rem;
+            margin-top: 0.2rem;
+            display: block;
+            font-size: 0.97em;
+        }
+    }
+
+    @keyframes despliega {
+        from {
+            opacity: 0;
+            transform: translateY(-20px) scaleY(0.96);
+        }
+
+        to {
+            opacity: 1;
+            transform: none;
+        }
+    }
+
+    .profile-section {
+        margin-bottom: 2rem;
+        padding: 1.5rem 1rem 1.2rem 1rem;
+        background: #fafaff;
+        border-radius: 10px;
+
+        h3 {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+            font-size: 1.2rem;
+            color: #ff7b1a;
+            font-weight: 700;
+        }
+    }
+
+    @media (max-width: 600px) {
+        padding: 0.6rem;
+
+        .section-title {
+            font-size: 1.25rem;
+        }
+
+        .profile-section {
+            padding: 0.9rem 0.4rem 0.7rem 0.4rem;
+        }
+
+        .password-section {
+            padding: 0.7rem 0.4rem 0.4rem 0.4rem;
+        }
+
+        .form-group {
+
+            input,
+            select {
+                padding: 0.55rem;
+                font-size: 0.97rem;
+            }
+        }
+
+        .acciones button {
+            padding: 0.7rem 1.1rem;
+            font-size: 0.96rem;
+        }
+    }
+
+    .modal-exito-backdrop {
+        position: fixed;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.11);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 2000;
+
+        .modal-exito {
+            background: #fff;
+            color: #27ae60;
+            padding: 1.6rem 2.4rem;
+            border-radius: 2rem;
+            box-shadow: 0 8px 32px rgba(40, 40, 40, 0.10);
+            font-size: 1.25rem;
+            display: flex;
+            align-items: center;
+            gap: 0.7rem;
+            font-weight: 700;
+            animation: pop-in 0.22s cubic-bezier(.29, 1.25, .75, 1.01);
+
+            mat-icon,
+            svg {
+                font-size: 2rem;
+                width: 2.1rem;
+                height: 2.1rem;
+            }
+        }
+
+        .modal-exito.modal-error {
+            color: #e74c3c;
+
+            mat-icon,
+            svg {
+                color: #e74c3c;
+            }
+        }
+    }
+
+    @keyframes pop-in {
+        from {
+            transform: scale(0.93);
+            opacity: 0;
+        }
+
+        to {
+            transform: scale(1);
+            opacity: 1;
+        }     
+    }
 }

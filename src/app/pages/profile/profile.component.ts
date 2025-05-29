@@ -1,7 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { HttpClient } from '@angular/common/http';
 import { UserService } from 'app/core/services/user.service';
 import { MatIconModule } from '@angular/material/icon';
 
@@ -14,9 +13,12 @@ import { MatIconModule } from '@angular/material/icon';
 })
 export class ProfileComponent {
   usuario = {
-    email: 'usuario@email.com',
-    nombre: 'Nombre Apellido',
-    profileImage: null
+    email: '',
+    username: '',
+    profileImage: null,
+    nombre: '',
+    apellidos: '',
+    genero: ''
   };
 
   mostrarSelector = false;
@@ -28,13 +30,23 @@ export class ProfileComponent {
     'assets/avatars/avatar3.png',
     'assets/avatars/avatar4.png'
   ];
-  
+
   fotoUrl: string | ArrayBuffer | null = null;
   selectedImage: File | null = null;
 
+  showPassword: boolean = false;
+  showConfirmPassword: boolean = false;
   nuevaPassword = '';
   confirmarPassword = '';
+  mostrarCambioPassword = false;
+  passwordsIguales = true;
   defaultAvatar = 'assets/avatars/avatar2.png';
+  usernameDisponible: boolean | null = null;
+  verificandoUsername = false;
+  usernameValido = true;
+  originalUsername: string = '';
+  mostrarModalExito = false;
+  mostrarModalError = false;
 
   constructor(private userService: UserService) { }
 
@@ -44,13 +56,59 @@ export class ProfileComponent {
       next: (user: any) => {
         this.usuario = {
           email: user.email,
-          nombre: user.name,
-          profileImage: user.profileImage
+          username: user.username,
+          profileImage: user.profileImage,
+          nombre: user.nombre,
+          apellidos: user.apellidos,
+          genero: user.genero
         };
-
+        this.originalUsername = user.username;
         this.fotoUrl = user.profileImage || this.defaultAvatar;
       }
     });
+  }
+
+  onUsernameChange(): void {
+    const username = this.usuario.username?.trim();
+
+    const formatoValido = /^(?![_.-])[a-zA-Z0-9._-]{3,20}(?<![_.-])$/.test(username);
+    this.usernameValido = formatoValido;
+
+    if (!username) {
+      this.usernameDisponible = null;
+      return;
+    }
+
+    if (username === this.originalUsername) {
+      this.usernameDisponible = true;
+      return;
+    }
+
+    this.verificandoUsername = true;
+    this.userService.checkUsernameDisponible(username).subscribe({
+      next: disponible => {
+        this.usernameDisponible = disponible;
+        this.verificandoUsername = false;
+      },
+      error: err => {
+        console.error('Error verificando disponibilidad de username', err);
+        this.verificandoUsername = false;
+        this.usernameDisponible = null;
+      }
+    });
+  }
+
+  private buildPerfilBlob(extra?: any): Blob {
+    return new Blob(
+      [JSON.stringify({
+        username: this.usuario.username,
+        nombre: this.usuario.nombre,
+        apellidos: this.usuario.apellidos,
+        genero: this.usuario.genero,
+        ...extra
+      })],
+      { type: 'application/json' }
+    );
   }
 
   onFotoSeleccionada(event: Event): void {
@@ -63,10 +121,7 @@ export class ProfileComponent {
         this.fotoUrl = reader.result;
 
         const formData = new FormData();
-        formData.append('perfil', new Blob(
-          [JSON.stringify({ name: this.usuario.nombre })],
-          { type: 'application/json' }
-        ));
+        formData.append('perfil', this.buildPerfilBlob());
         formData.append('imagen', this.selectedImage!);
 
         this.userService.actualizarPerfil(formData).subscribe({
@@ -110,10 +165,7 @@ export class ProfileComponent {
 
   seleccionarAvatar(avatar: string): void {
     const formData = new FormData();
-    formData.append('perfil', new Blob(
-      [JSON.stringify({ name: this.usuario.nombre, imageUrl: avatar })],
-      { type: 'application/json' }
-    ));
+    formData.append('perfil', this.buildPerfilBlob({ imageUrl: avatar }));
 
     this.userService.actualizarPerfil(formData).subscribe({
       next: () => {
@@ -147,30 +199,66 @@ export class ProfileComponent {
     });
   }
 
+  onPasswordChange(): void {
+    this.passwordsIguales = this.nuevaPassword === this.confirmarPassword;
+  }
+
+  togglePasswordVisibility(): void {
+    this.showPassword = !this.showPassword;
+  }
+
+  toggleConfirmPasswordVisibility(): void {
+    this.showConfirmPassword = !this.showConfirmPassword;
+  }
+
+  togglePasswordChange(): void {
+    this.mostrarCambioPassword = !this.mostrarCambioPassword;
+    if (!this.mostrarCambioPassword) {
+      this.nuevaPassword = '';
+      this.confirmarPassword = '';
+      this.passwordsIguales = true;
+    }
+  }
+
   guardarCambios(): void {
-    if (this.nuevaPassword && this.nuevaPassword !== this.confirmarPassword) {
-      alert('Las contraseñas no coinciden');
+    if (this.mostrarCambioPassword && (!this.nuevaPassword || !this.confirmarPassword || !this.passwordsIguales)) {
+      alert('Debes introducir y confirmar la nueva contraseña, y deben coincidir.');
+      return;
+    }
+
+    if (this.usernameDisponible === false) {
+      alert('El nombre de usuario no está disponible.');
+      return;
+    }
+
+    if (!this.usernameValido) {
+      alert('El nombre de usuario no tiene un formato válido.');
       return;
     }
 
     const formData = new FormData();
-    const perfilData = {
-      name: this.usuario.nombre,
-      password: this.nuevaPassword || undefined,
+    const extra = {
+      ...(this.mostrarCambioPassword && this.nuevaPassword ? { password: this.nuevaPassword } : {}),
       imageUrl: typeof this.fotoUrl === 'string' && !this.selectedImage ? this.fotoUrl : undefined
     };
 
-    formData.append('perfil', new Blob([JSON.stringify(perfilData)], { type: 'application/json' }));
+    formData.append('perfil', this.buildPerfilBlob(extra));
     if (this.selectedImage) {
       formData.append('imagen', this.selectedImage);
     }
 
     this.userService.actualizarPerfil(formData).subscribe({
       next: () => {
-        alert('Perfil actualizado');
+        this.mostrarModalExito = true;
+        this.mostrarModalError = false;
         this.loadAvatars();
+        setTimeout(() => this.mostrarModalExito = false, 2000);
       },
-      error: err => console.error('Error actualizando perfil', err)
+      error: err => {
+        this.mostrarModalError = true;
+        this.mostrarModalExito = false;
+        setTimeout(() => this.mostrarModalError = false, 2200);
+      }
     });
   }
 }
