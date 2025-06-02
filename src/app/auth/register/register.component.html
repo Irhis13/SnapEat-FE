@@ -1,1 +1,112 @@
-<p>register works!</p>
+<div class="register-container">
+    <div class="register-logo">
+        <img src="assets/images/logo.png" alt="Logo" class="logo" />
+    </div>
+    <h2>Crea tu cuenta</h2>
+    <form [formGroup]="formReg" (ngSubmit)="register()">
+        <!-- Username -->
+        <div class="form-group">
+            <label for="username">Nombre de usuario <span class="required">*</span></label>
+            <input type="text" id="username" class="form-control" formControlName="username" placeholder="Nombre de usuario"
+                required />
+            <div *ngIf="formReg.get('username')?.touched && formReg.get('username')?.invalid" class="error">
+                <ng-container *ngIf="formReg.get('username')?.errors?.['required']">
+                    El nombre de usuario es obligatorio.
+                </ng-container>
+                <ng-container *ngIf="formReg.get('username')?.errors?.['pattern']">
+                    Nombre de usuario no válido. Mín. 3, máx. 20 caracteres.
+                </ng-container>
+            </div>  
+        </div>
+
+        <!-- Nombre -->
+        <div class="form-group">
+            <label for="nombre">Nombre <span class="required">*</span></label>
+            <input type="text" id="nombre" class="form-control" formControlName="name" placeholder="Tu nombre" required />
+            <div *ngIf="formReg.get('name')?.touched && formReg.get('name')?.invalid" class="error">
+                <ng-container *ngIf="formReg.get('name')?.errors?.['required']">
+                    El nombre es obligatorio.
+                </ng-container>
+            </div>  
+        </div>
+
+        <!-- Apellidos -->
+        <div class="form-group">
+            <label for="apellidos">Apellidos <span class="required">*</span></label>
+            <input type="text" id="apellidos" class="form-control" formControlName="surname" placeholder="Tus apellidos"
+                required />
+            <div *ngIf="formReg.get('surname')?.touched && formReg.get('surname')?.invalid" class="error">
+                <ng-container *ngIf="formReg.get('surname')?.errors?.['required']">
+                    Los apellidos son obligatorios.
+                </ng-container>
+            </div>  
+        </div>
+
+        <!-- Género -->
+        <div class="form-group">
+            <label for="genero">Género <span class="required">*</span></label>
+            <select id="genero" class="form-control" formControlName="genero" required>
+                <option value="" disabled>Selecciona</option>
+                <option value="HOMBRE">Masculino</option>
+                <option value="MUJER">Femenino</option>
+                <option value="OTRO">Otro</option>
+            </select>
+            <div *ngIf="formReg.get('genero')?.touched && formReg.get('genero')?.invalid" class="error">
+                Debes seleccionar un género.
+            </div>  
+        </div>
+
+        <!-- Email -->
+        <div class="form-group">
+            <label for="email">Correo electrónico <span class="required">*</span></label>
+            <input type="email" id="email" class="form-control" formControlName="email" placeholder="Introduce tu correo"
+                required />
+            <div *ngIf="formReg.get('email')?.touched && formReg.get('email')?.invalid" class="error">
+                <ng-container *ngIf="formReg.get('email')?.errors?.['required']">
+                    El correo electrónico es obligatorio.
+                </ng-container>
+                <ng-container *ngIf="formReg.get('email')?.errors?.['email']">
+                    Por favor, introduce un correo válido.
+                </ng-container>
+            </div>  
+        </div>
+
+        <!-- Password -->
+        <div class="form-group">
+            <label for="password">Contraseña <span class="required">*</span></label>
+            <div class="password-input-container">
+                <input [type]="showPassword ? 'text' : 'password'" id="password" class="form-control" formControlName="password"
+                    placeholder="Introduce tu contraseña" required minlength="6" />
+                <button type="button" class="toggle-password" (click)="togglePasswordVisibility()"
+                    aria-label="Mostrar u ocultar contraseña">
+                    <mat-icon>{{ showPassword ? 'visibility_off' : 'visibility' }}</mat-icon>
+                </button>
+            </div>
+            <div *ngIf="formReg.get('password')?.touched && formReg.get('password')?.invalid" class="error">
+                <ng-container *ngIf="formReg.get('password')?.errors?.['required']">
+                    La contraseña es obligatoria.
+                </ng-container>
+                <ng-container *ngIf="formReg.get('password')?.errors?.['minlength']">
+                    La contraseña debe tener al menos 6 caracteres.
+                </ng-container>
+            </div>  
+        </div>
+
+        <!-- Botón submit -->
+        <button type="submit" class="btn-primary" [disabled]="formReg.invalid || loading">
+            {{ loading ? 'Registrando...' : 'Registrar' }}
+        </button>
+    </form>
+
+    <div *ngIf="errorMessage" class="error-message">
+        {{ errorMessage }}
+    </div>
+
+    <div *ngIf="successMessage" class="success-message">
+        <mat-icon>check_circle</mat-icon> {{ successMessage }}
+    </div>
+
+    <div class="register-link">
+        ¿Ya tienes cuenta? <a (click)="goToLogin()">Inicia sesión</a>
+    </div>
+</div>

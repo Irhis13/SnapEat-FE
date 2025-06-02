@@ -16,8 +16,8 @@ export class ProfileComponent {
     email: '',
     username: '',
     profileImage: null,
-    nombre: '',
-    apellidos: '',
+    name: '',
+    surname: '',
     genero: ''
   };
 
@@ -58,8 +58,8 @@ export class ProfileComponent {
           email: user.email,
           username: user.username,
           profileImage: user.profileImage,
-          nombre: user.nombre,
-          apellidos: user.apellidos,
+          name: user.name,
+          surname: user.surname,
           genero: user.genero
         };
         this.originalUsername = user.username;
@@ -102,8 +102,8 @@ export class ProfileComponent {
     return new Blob(
       [JSON.stringify({
         username: this.usuario.username,
-        nombre: this.usuario.nombre,
-        apellidos: this.usuario.apellidos,
+        name: this.usuario.name,
+        surname: this.usuario.surname,
         genero: this.usuario.genero,
         ...extra
       })],
