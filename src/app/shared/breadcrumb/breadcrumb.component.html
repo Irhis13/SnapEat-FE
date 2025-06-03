@@ -1,0 +1,11 @@
+<div *ngIf="showBreadcrumb" class="breadcrumb-container container-contenido">
+    <nav>
+        <a routerLink="/">Inicio</a>
+        <span class="separator">›</span>
+        <ng-container *ngFor="let crumb of breadcrumbsFiltered; let last = last">
+            <a *ngIf="!last" [routerLink]="crumb.url">{{ crumb.label }}</a>
+            <span *ngIf="last">{{ crumb.label }}</span>
+            <span *ngIf="!last" class="separator">›</span>
+        </ng-container>
+    </nav>
+</div>

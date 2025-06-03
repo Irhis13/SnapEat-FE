@@ -3,6 +3,7 @@ import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { UserService } from 'app/core/services/user.service';
 import { MatIconModule } from '@angular/material/icon';
+import { BreadcrumbService } from 'app/core/services/breadcrumb.service';
 
 @Component({
   selector: 'app-profile',
@@ -48,9 +49,15 @@ export class ProfileComponent {
   mostrarModalExito = false;
   mostrarModalError = false;
 
-  constructor(private userService: UserService) { }
+  constructor(
+    private userService: UserService,
+    private breadcrumbService: BreadcrumbService
+  ) { }
 
   ngOnInit(): void {
+    this.breadcrumbService.setBreadcrumbs([
+      { label: 'Perfil', url: '/perfil' }
+    ]);
     this.loadAvatars();
     this.userService.getPerfil().subscribe({
       next: (user: any) => {

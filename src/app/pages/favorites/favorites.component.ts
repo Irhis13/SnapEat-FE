@@ -4,6 +4,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { Router } from '@angular/router';
 import { RecipeService, Recipe } from '../../core/services/receta.service';
+import { BreadcrumbService } from 'app/core/services/breadcrumb.service';
 
 @Component({
   selector: 'app-favorites',
@@ -39,10 +40,17 @@ export class FavoritesComponent implements OnInit {
 
   constructor(
     private recipeService: RecipeService,
+    private breadcrumbService: BreadcrumbService,
     private router: Router
   ) { }
 
   ngOnInit(): void {
+    setTimeout(() => {
+      this.breadcrumbService.setBreadcrumbs([
+        { label: 'Favoritos', url: '/favoritos' }
+      ]);
+    });
+
     this.recipeService.getFavoritosUsuario().subscribe({
       next: (data: Recipe[]) => {
         this.favoritos = data;

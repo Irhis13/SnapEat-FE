@@ -9,6 +9,7 @@ export interface Recipe {
     description: string;
     imageUrl: string;
     authorName: string;
+    authorAvatar?: string;
     authorId: number; 
     category: 'COMIDA' | 'POSTRE' | 'EMPANADA' | 'VEGETARIANO';
     ingredients: string;

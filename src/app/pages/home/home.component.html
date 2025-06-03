@@ -1,14 +1,19 @@
 <div class="carousel">
-    <button class="arrow left" (click)="prevImage()">‹</button>
-
     <img [src]="images[currentIndex].url" class="carousel-image" (click)="goToTipo(images[currentIndex].tipo)"
         alt="Imagen carrusel" />
-
-    <button class="arrow right" (click)="nextImage()">›</button>
 
     <div class="overlay-text">
         <h2>{{ currentOverlay.title }}</h2>
         <p>{{ currentOverlay.subtitle }}</p>
+    </div>
+
+    <div class="carousel-controls">
+        <button class="arrow left" (click)="prevImage()">
+            <mat-icon>chevron_left</mat-icon>
+        </button>
+        <button class="arrow right" (click)="nextImage()">
+            <mat-icon>chevron_right</mat-icon>
+        </button>
     </div>
 </div>
 
@@ -20,7 +25,11 @@
             <img [src]="recipe.imageUrl" [alt]="recipe.title" />
             <h3>{{ recipe.title }}</h3>
             <p>{{ recipe.description }}</p>
-            <small>By {{ recipe.authorName }}</small>
+            <small class="autor">
+                <img [src]="recipe.authorAvatar || 'assets/avatars/avatar2.png'" alt="Avatar {{ recipe.authorName }}"
+                    class="avatar" />
+                {{ recipe.authorName }}      
+            </small>
         </div>
     </div>
 </section>
@@ -33,7 +42,11 @@
             <img [src]="recipe.imageUrl" [alt]="recipe.title" />
             <h3>{{ recipe.title }}</h3>
             <p>{{ recipe.description }}</p>
-            <small>Por {{ recipe.authorName }}</small>
+            <small class="autor">
+                <img [src]="recipe.authorAvatar || 'assets/avatars/avatar2.png'" alt="Avatar {{ recipe.authorName }}"
+                    class="avatar" />
+                {{ recipe.authorName }}
+            </small>
         </div>
     </div>
 </section>

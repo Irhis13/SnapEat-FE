@@ -29,3 +29,22 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
         padding: 1rem 2rem;
     }
 }
+
+.auth-container {
+    width: 100%;
+    max-width: 500px;
+    margin: 5rem auto;
+    padding: 2.5rem 3rem;
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 8px 28px rgba(0, 0, 0, 0.08);
+    text-align: center;
+
+    @media (max-width: 768px) {
+        padding: 2rem 1rem;
+    }
+    
+    @media (max-width: 480px) {
+        padding: 1.5rem 0.8rem;
+    }
+}

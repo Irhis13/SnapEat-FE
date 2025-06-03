@@ -1,0 +1,27 @@
+.breadcrumb-container {
+    margin-bottom: 1.5rem;
+
+    nav {
+        font-size: 1.1rem;
+        font-weight: 500;
+
+        a {
+            color: #ff7b1a;
+            text-decoration: none;
+
+            &:hover {
+                text-decoration: underline;
+            }
+        }
+
+        .separator {
+            margin: 0 0.5rem;
+            color: #ccc;
+        }
+
+        span {
+            color: #333;
+            font-weight: bold;
+        }
+    } 
+}

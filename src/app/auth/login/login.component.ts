@@ -12,6 +12,7 @@ import { AuthService } from '../../core/services/auth.service';
   imports: [CommonModule, ReactiveFormsModule]
 })
 export class LoginComponent {
+
   formLogin: FormGroup;
   errorMessage: string | null = null;
   showPassword: boolean = false;
@@ -52,5 +53,9 @@ export class LoginComponent {
 
   goToRegister(): void {
     this.router.navigate(['/registro']);
+  }
+
+  goToHome(): void {
+    this.router.navigate(['/']);
   }
 }

@@ -5,6 +5,7 @@ import { AuthService } from '../../../core/services/auth.service';
 import { RecipeService, Recipe } from '../../../core/services/receta.service';
 import { MatIconModule } from '@angular/material/icon';
 import Hashids from 'hashids';
+import { BreadcrumbService } from 'app/core/services/breadcrumb.service';
 
 @Component({
   selector: 'app-receta-detalle',
@@ -24,12 +25,20 @@ export class DetalleRecetaComponent implements OnInit {
     private route: ActivatedRoute,
     private recipeService: RecipeService,
     private authService: AuthService,
+    private breadcrumbService: BreadcrumbService,
     private router: Router
   ) { }
 
   ngOnInit(): void {
     const hashedId = this.route.snapshot.paramMap.get('id');
     if (!hashedId) return;
+
+    setTimeout(() => {
+      this.breadcrumbService.setBreadcrumbs([
+        { label: 'Recetas', url: '/recetas' },
+        { label: 'Detalle', url: this.router.url }
+      ]);
+    });
 
     this.recipeService.getById(hashedId).subscribe({
       next: data => {

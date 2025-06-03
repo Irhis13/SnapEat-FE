@@ -1,9 +1,10 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
+import { BreadcrumbService } from 'app/core/services/breadcrumb.service';
 import { RecipeService, Recipe } from 'app/core/services/receta.service';
 import { Observable } from 'rxjs';
 
@@ -36,14 +37,25 @@ export class CrearRecetaComponent implements OnInit {
 
   constructor(
     private recetaService: RecipeService,
+    private breadcrumbService: BreadcrumbService,
     private router: Router,
     private route: ActivatedRoute,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
+    private cdRef: ChangeDetectorRef
   ) { }
 
   ngOnInit(): void {
     this.hashedId = this.route.snapshot.paramMap.get('id');
     this.isEditMode = !!this.hashedId;
+
+    setTimeout(() => {
+      this.breadcrumbService.setBreadcrumbs([
+        { label: 'Recetas', url: '/recetas' },
+        { label: this.isEditMode ? 'Editar receta' : 'Nueva receta', url: this.router.url }
+      ]);
+    });
+
+    this.cdRef.detectChanges();
 
     if (this.isEditMode && this.hashedId) {
       this.recetaService.getById(this.hashedId).subscribe((data: Recipe) => {

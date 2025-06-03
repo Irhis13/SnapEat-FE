@@ -1,20 +1,4 @@
 .register-container {
-    width: 100%;
-    max-width: 900px;
-    margin: 2.5rem auto;
-    background: #fff;
-    border-radius: 18px;
-    box-shadow: 0 8px 28px rgba(0, 0, 0, 0.09);
-    padding: 3.5rem 5rem;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-
-    .required {
-        color: red;
-        font-weight: bold;
-    }
-
     .register-logo {
         display: flex;
         justify-content: center;
@@ -27,94 +11,61 @@
     }
 
     h2 {
-        margin-bottom: 1.8rem;
-        font-size: 2.2rem;
+        font-size: 2rem;
         color: #ff7b1a;
         font-weight: 700;
-        text-align: center;
+        margin-bottom: 1.8rem;
     }
 
     .form-group {
-        margin-bottom: 1.7rem;
         width: 100%;
+        margin-bottom: 1.5rem;
+        text-align: left;
 
         label {
             font-weight: 600;
-            margin-bottom: 0.3rem;
+            margin-bottom: 0.4rem;
             display: block;
         }
 
-        input,
-        select {
-            width: 450px; 
-            max-width: 100%;
-            padding: 1.3rem 1.18rem;
-            font-size: 1.18rem;
-            border-radius: 11px;
-            min-height: 56px;
-            border: 1.5px solid #ccc;
-            background: #fafbfc;
-            transition: border 0.18s;
-            box-sizing: border-box;
-            display: block;
-            margin: 0 auto;
+        .error {
+            color: #e74c3c;
+            font-size: 0.9rem;
+            margin-top: 0.3rem;
         }
 
         .password-input-container {
-            display: flex;
-            align-items: center;
             position: relative;
-
-            input {
-                padding-right: 2.7rem;
-            }
 
             .toggle-password {
                 position: absolute;
-                right: 0.5rem;
+                right: 0.6rem;
+                top: 50%;
+                transform: translateY(-50%);
                 background: none;
                 border: none;
+                font-size: 1.2rem;
                 color: #888;
-                font-size: 1.4rem;
                 cursor: pointer;
-                padding: 0.2rem 0.4rem;
-                display: flex;
-                align-items: center;
 
                 &:hover {
                     color: #ff7b1a;
                 }
             }
         }
-
-        .error {
-            color: #e74c3c;
-            font-size: 1rem;
-            margin-top: 3px;
-            width: 440px;
-            max-width: 100%;
-            margin-left: auto;
-            margin-right: auto;
-        }
     }
 
     .btn-primary {
         background-color: #ff7b1a;
-        color: #fff;
-        padding: 1.22rem 0;
-        border: none;
-        border-radius: 11px;
-        font-size: 1.24rem;
-        width: 450px;
-        max-width: 100%;
+        color: white;
         font-weight: bold;
-        cursor: pointer;
+        font-size: 1.1rem;
+        border: none;
+        border-radius: 10px;
+        width: 100%;
+        padding: 1rem;
         margin-top: 0.4rem;
-        margin-bottom: 0.9rem;
-        transition: background 0.15s;
-        display: block;
-        margin-left: auto;
-        margin-right: auto;
+        transition: background 0.2s;
 
         &:hover {
             background-color: #e86900;
@@ -126,18 +77,15 @@
         }
     }
 
-    .register-link {
-        text-align: center;
-        margin-top: 1.2rem;
-        font-size: 1.08rem;
-        color: #444;
+    .register-link,
+    .back-home-link {
+        margin-top: 1rem;
+        font-size: 0.95rem;
 
         a {
             color: #ff7b1a;
-            cursor: pointer;
-            text-decoration: underline;
             font-weight: 600;
-            margin-left: 3px;
+            text-decoration: underline;
 
             &:hover {
                 color: #e86900;
@@ -147,53 +95,32 @@
 
     .error-message,
     .success-message {
-        margin: 1.2rem 0 0.6rem 0;
-        padding: 1rem 1.2rem;
-        border-radius: 10px;
-        font-size: 1.07rem;
-        font-weight: 600;
-        display: flex;
-        align-items: center;
-        gap: 0.5rem;
-        width: 420px;
-        max-width: 100%;
-        justify-content: center;
-        margin-left: auto;
-        margin-right: auto;
+        margin-top: 1rem;
+        font-size: 0.95rem;
+        padding: 1rem;
+        border-radius: 8px;
     }
 
     .error-message {
         background: #fdecea;
         color: #e74c3c;
-        border: 1.2px solid #f5c6cb;
+        border: 1px solid #f5c6cb;
     }
 
     .success-message {
         background: #e7f7ee;
         color: #2ecc71;
-        border: 1.2px solid #b0eacd;
+        border: 1px solid #b0eacd;
 
         mat-icon {
+            font-size: 1.3rem;
             color: #2ecc71;
-            font-size: 1.7rem;
+            vertical-align: middle;
         }
     }
-}
 
-@media (max-width: 600px) {
-    .register-container {
-        max-width: 99vw;
-        padding: 1.2rem 0.5rem;
-        border-radius: 12px;
-
-        .form-group input,
-        .form-group select,
-        .form-group .error,
-        .btn-primary,
-        .error-message,
-        .success-message {
-            width: 100%;
-            min-width: 0;
-        }
-    }
+    .required {
+        color: red;
+        font-weight: bold;
+    } 
 }
