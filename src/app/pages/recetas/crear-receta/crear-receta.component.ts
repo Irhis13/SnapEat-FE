@@ -34,6 +34,8 @@ export class CrearRecetaComponent implements OnInit {
   imagenPreview: string | null = null;
   imagenArchivo: File | null = null;
   categorias: ('COMIDA' | 'POSTRE' | 'EMPANADA' | 'VEGETARIANO')[] = ['COMIDA', 'POSTRE', 'EMPANADA', 'VEGETARIANO'];
+  editandoPasoIndex: number | null = null;
+  pasoEditado: string = '';
 
   constructor(
     private recetaService: RecipeService,
@@ -122,6 +124,24 @@ export class CrearRecetaComponent implements OnInit {
 
   eliminarPaso(index: number) {
     this.receta.steps.splice(index, 1);
+  }
+
+  iniciarEdicionPaso(index: number): void {
+    this.editandoPasoIndex = index;
+    this.pasoEditado = this.receta.steps[index];
+  }
+
+  guardarEdicionPaso(index: number): void {
+    const texto = this.pasoEditado.trim();
+    if (texto) {
+      this.receta.steps[index] = this.capitalize(texto);
+    }
+    this.cancelarEdicionPaso();
+  }
+
+  cancelarEdicionPaso(): void {
+    this.editandoPasoIndex = null;
+    this.pasoEditado = '';
   }
 
   borrarImagen(): void {

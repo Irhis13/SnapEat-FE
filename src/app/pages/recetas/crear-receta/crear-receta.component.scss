@@ -80,6 +80,32 @@
         }
     }
 
+    .file-wrapper {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+
+        button {
+            background-color: #ff7b1a;
+            color: white;
+            padding: 0.5rem 1rem;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.95rem;
+            transition: background-color 0.2s ease-in-out;
+
+            &:hover {
+                background-color: #e86900;
+            }
+        }
+
+        span {
+            font-size: 0.9rem;
+            color: #555;
+        }
+    }
+
     .categoria-autor {
         display: flex;
         flex-direction: column;
@@ -232,26 +258,47 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
+        }
+    }
 
-            button {
-                background: none;
-                border: none;
-                font-size: 1.1rem;
-                font-weight: bold;
-                color: #888;
-                border-radius: 50%;
-                width: 20px;
-                height: 20px;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                cursor: pointer;
+    .paso-item {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 1rem;
+        width: 100%;
+    }
 
-                &:hover {
-                    color: #ff7b1a;
-                }
+    .acciones-paso {
+        display: flex;
+        gap: 0.5rem;
+
+        button {
+            background: none;
+            border: none;
+            cursor: pointer;
+            color: #666;
+            display: flex;
+            align-items: center;
+            padding: 4px;
+
+            mat-icon {
+                font-size: 22px;
+                transition: color 0.2s ease-in-out;
+            }
+
+            &:hover mat-icon {
+                color: #ff7b1a;
             }
         }
+    }
+
+    .paso-edit-input {
+        flex: 1;
+        padding: 0.4rem;
+        font-size: 1rem;
+        border-radius: 6px;
+        border: 1px solid #ccc;
     }
 
     @media (max-width: 600px) {
@@ -268,5 +315,5 @@
         img {
             max-height: 200px;
         }
-    }
+    } 
 }

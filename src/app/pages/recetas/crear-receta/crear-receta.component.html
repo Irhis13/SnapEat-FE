@@ -6,10 +6,16 @@
         <!-- Imagen -->
         <div class="imagen-input">
             <label for="imagen">Imagen de la receta</label>
-            <input type="file" id="imagen" (change)="onImageChange($event)" />
+        
+            <div class="file-wrapper">
+                <input type="file" #imagenInput (change)="onImageChange($event)" hidden />
+                <button type="button" (click)="imagenInput.click()">Seleccionar archivo</button>
+                <span *ngIf="imagenPreview">Archivo seleccionado</span>
+            </div>
+        
             <div *ngIf="imagenPreview">
                 <img [src]="imagenPreview" alt="Vista previa" width="200" />
-                <button type="button" (click)="borrarImagen()">Quitar imagen</button>        
+                <button type="button" (click)="borrarImagen()">Quitar imagen</button>
             </div>
         </div>
 
@@ -17,7 +23,6 @@
         <input type="text" placeholder="Título de la receta" [(ngModel)]="receta.title" name="title" required />
         <textarea placeholder="Descripción..." [(ngModel)]="receta.description" name="description" required></textarea>
 
-        <!-- Categoría como botones -->
         <!-- Categoría como botones -->
         <div class="categorias-botones">
             <button type="button" *ngFor="let cat of categorias" [class.selected]="receta.category === cat"
@@ -52,9 +57,31 @@
             </div>
             <ol>
                 <li *ngFor="let paso of receta.steps; let i = index">
-                    {{ paso }}
-                    <button type="button" (click)="eliminarPaso(i)">×</button>
-                </li>
+                    <div *ngIf="editandoPasoIndex !== i; else editTemplate" class="paso-item">
+                        {{ paso }}
+                        <div class="acciones-paso">
+                            <button mat-icon-button matTooltip="Editar" (click)="iniciarEdicionPaso(i)">
+                                <mat-icon>edit</mat-icon>                     
+                            </button>
+                            <button type="button" (click)="eliminarPaso(i)">
+                                <mat-icon>delete</mat-icon>
+                            </button>
+                        </div>
+                    </div>
+                    <ng-template #editTemplate>
+                        <div class="paso-item">
+                            <input [(ngModel)]="pasoEditado" name="pasoEditado" class="paso-edit-input" />
+                            <div class="acciones-paso">
+                                <button type="button" (click)="guardarEdicionPaso(i)">
+                                    <mat-icon>check</mat-icon>
+                                </button>
+                                <button type="button" (click)="cancelarEdicionPaso()">
+                                    <mat-icon>close</mat-icon>
+                                </button>
+                            </div>
+                        </div>
+                    </ng-template>
+                </li>         
             </ol>
         </section>
 
