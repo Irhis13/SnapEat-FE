@@ -87,7 +87,9 @@ export class HomeComponent implements OnInit {
   }
 
   crearReceta(): void {
-    this.router.navigate(['/recetas/crear']);
+    this.router.navigate(['/recetas/crear'], {
+      state: { from: this.router.url }
+    });
   }
 
   verDetalle(id: number): void {

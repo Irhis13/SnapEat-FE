@@ -6,7 +6,6 @@
 
     <form (ngSubmit)="guardarReceta()" #formReceta="ngForm">
 
-        <!-- Imagen -->
         <div class="imagen-input">
             <label for="imagen">Imagen de la receta</label>
         
@@ -22,11 +21,9 @@
             </div>
         </div>
 
-        <!-- Título y descripción -->
         <input type="text" placeholder="Título de la receta" [(ngModel)]="receta.title" name="title" required />
         <textarea placeholder="Descripción..." [(ngModel)]="receta.description" name="description" required></textarea>
 
-        <!-- Categoría como botones -->
         <div class="categorias-botones">
             <button type="button" *ngFor="let cat of categorias" [class.selected]="receta.category === cat"
                 (click)="receta.category = cat">
@@ -34,7 +31,6 @@
             </button>
         </div>
 
-        <!-- Ingredientes -->
         <section class="ingredientes">
             <h2>Ingredientes</h2>
             <hr class="separador" />
@@ -50,7 +46,6 @@
             </ul>
         </section>
 
-        <!-- Pasos -->
         <section class="pasos">
             <h2>Pasos</h2>
             <hr class="separador" />
@@ -63,14 +58,15 @@
                     <div *ngIf="editandoPasoIndex !== i; else editTemplate" class="paso-item">
                         {{ paso }}
                         <div class="acciones-paso">
-                            <button mat-icon-button matTooltip="Editar" (click)="iniciarEdicionPaso(i)">
-                                <mat-icon>edit</mat-icon>                     
+                            <button type="button" mat-icon-button matTooltip="Editar" (click)="iniciarEdicionPaso(i)">
+                                <mat-icon>edit</mat-icon>
                             </button>
                             <button type="button" (click)="eliminarPaso(i)">
                                 <mat-icon>delete</mat-icon>
                             </button>
                         </div>
                     </div>
+            
                     <ng-template #editTemplate>
                         <div class="paso-item">
                             <input [(ngModel)]="pasoEditado" name="pasoEditado" class="paso-edit-input" />
@@ -88,11 +84,13 @@
             </ol>
         </section>
 
-        <!-- Botón -->
         <div class="acciones">
             <button type="submit" [disabled]="!formReceta.form.valid">
-                {{ isEditMode ? 'Guardar cambios' : 'Guardar receta' }}     
+                {{ isEditMode ? 'Guardar cambios' : 'Guardar receta' }}
             </button>
+            <button type="button" class="cancelar" (click)="cancelarEdicion()">
+                Cancelar
+            </button>    
         </div>
     </form>
 </div>

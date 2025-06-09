@@ -87,7 +87,9 @@ export class DetalleRecetaComponent implements OnInit {
 
   editarReceta(): void {
     if (this.receta) {
-      this.router.navigate(['/recetas/crear', this.receta.hashedId]);
+      this.router.navigate(['/recetas/crear', this.receta.hashedId], {
+        state: { from: this.router.url }
+      });
     }
   }
 

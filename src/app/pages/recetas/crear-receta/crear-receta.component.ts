@@ -46,6 +46,7 @@ export class CrearRecetaComponent implements OnInit {
   categorias: ('COMIDA' | 'POSTRE' | 'EMPANADA' | 'VEGETARIANO')[] = ['COMIDA', 'POSTRE', 'EMPANADA', 'VEGETARIANO'];
   editandoPasoIndex: number | null = null;
   pasoEditado: string = '';
+  origen: string = '/recetas';
 
   constructor(
     private recetaService: RecipeService,
@@ -59,6 +60,12 @@ export class CrearRecetaComponent implements OnInit {
   ngOnInit(): void {
     this.hashedId = this.route.snapshot.paramMap.get('id');
     this.isEditMode = !!this.hashedId;
+
+    const nav = this.router.getCurrentNavigation();
+    const state = nav?.extras?.state as { from?: string };
+    if (state?.from) {
+      this.origen = state.from;
+    }
 
     setTimeout(() => {
       this.breadcrumbService.setBreadcrumbs([
@@ -120,12 +127,23 @@ export class CrearRecetaComponent implements OnInit {
     this.imagenArchivo = file;
   }
 
-  capitalize(text: string): string {
-    return text.charAt(0).toUpperCase() + text.slice(1);
+  capitalizeIngrediente(text: string): string {
+    if (!text) return '';
+    const trimmed = text.trim();
+    return trimmed.charAt(0).toUpperCase() + trimmed.slice(1);
+  }
+
+  capitalizePaso(text: string): string {
+    if (!text) return '';
+    let trimmed = text.trim();
+    if (!trimmed.endsWith('.')) {
+      trimmed += '.';
+    }
+    return trimmed.charAt(0).toUpperCase() + trimmed.slice(1);
   }
 
   agregarIngrediente() {
-    const ingrediente = this.capitalize(this.nuevoIngrediente.trim());
+    const ingrediente = this.capitalizeIngrediente(this.nuevoIngrediente.trim());
 
     if (!ingrediente) {
       this.mostrarMensajePersonalizado('El ingrediente no puede estar vacío.', 'warning');
@@ -148,14 +166,14 @@ export class CrearRecetaComponent implements OnInit {
   }
 
   agregarPaso() {
-    const paso = this.capitalize(this.nuevoPaso.trim());
+    const paso = this.nuevoPaso.trim();
 
     if (!paso) {
       this.mostrarMensajePersonalizado('El paso no puede estar vacío.', 'warning');
       return;
     }
 
-    this.receta.steps.push(paso);
+    this.receta.steps.push(this.capitalizePaso(paso));
     this.nuevoPaso = '';
   }
 
@@ -170,13 +188,21 @@ export class CrearRecetaComponent implements OnInit {
 
   guardarEdicionPaso(index: number): void {
     const texto = this.pasoEditado.trim();
-
     if (!texto) {
       this.mostrarMensajePersonalizado('El paso editado no puede estar vacío.', 'warning');
       return;
     }
 
-    this.receta.steps[index] = this.capitalize(texto);
+    const original = this.receta.steps[index].trim().replace(/\.$/, '');
+    const editado = texto.replace(/\.$/, '');
+
+    if (original === editado) {
+      this.mostrarMensajePersonalizado('No hay cambios en el paso.', 'info');
+      this.cancelarEdicionPaso();
+      return;
+    }
+
+    this.receta.steps[index] = this.capitalizePaso(texto);
     this.cancelarEdicionPaso();
   }
 
@@ -254,6 +280,14 @@ export class CrearRecetaComponent implements OnInit {
       : this.recetaService.crearRecetaFormData(this.crearFormData(recetaFinal, this.imagenArchivo));
 
     this.enviarReceta(request);
+  }
+
+  cancelarEdicion(): void {
+    if (this.hashedId) {
+      this.router.navigate(['/recetas', this.hashedId]);
+    } else {
+      this.router.navigate(['/recetas']);
+    }
   }
 
   mostrarMensajePersonalizado(mensaje: string, tipo: 'error' | 'success' | 'info' | 'warning' = 'error') {
