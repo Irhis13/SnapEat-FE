@@ -97,7 +97,6 @@
             }
         }
 
-        // Personalizado para el select de género
         select {
             appearance: none;
             -webkit-appearance: none;
@@ -179,7 +178,6 @@
         }
     }
 
-    /* Modal para selección de avatar */
     .avatar-modal-backdrop {
         position: fixed;
         inset: 0;
@@ -514,4 +512,10 @@
             opacity: 1;
         }     
     }
+}
+
+.breadcrumb-wrapper {
+    max-width: 600px;
+    margin: 2rem auto 1.5rem auto;
+    padding: 0 1rem;
 }

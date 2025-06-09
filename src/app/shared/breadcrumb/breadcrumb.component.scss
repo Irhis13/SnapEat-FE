@@ -1,5 +1,11 @@
-.breadcrumb-container {
+:host {
+    display: block;
     margin-bottom: 1.5rem;
+    padding: 0 0rem;
+
+    @media (max-width: 768px) {
+        padding: 0 1rem;
+    }
 
     nav {
         font-size: 1.1rem;

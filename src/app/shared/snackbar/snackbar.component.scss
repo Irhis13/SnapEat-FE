@@ -1,0 +1,117 @@
+.snackbar-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem 1.5rem;
+    border-radius: 10px;
+    color: #fff;
+    font-weight: 500;
+
+    &.error {
+        background-color: #e53935;
+    }
+
+    &.warning {
+        background-color: #ff9800;
+    }
+
+    &.success {
+        background-color: #43a047;
+    }
+
+    &.info {
+        background-color: #2196f3;
+    }
+}
+
+.snackbar-icon {
+    font-size: 24px;
+}
+
+.snackbar-message {
+    flex: 1;
+}
+
+button[mat-icon-button] {
+    border: none !important;
+    outline: none !important;
+    box-shadow: none !important;
+    background: transparent !important;
+
+    .mat-icon {
+        color: white !important;
+        font-size: 20px;
+    }
+
+    &:hover {
+        background-color: rgba(255, 255, 255, 0.1);
+    }
+}
+
+.mat-mdc-snack-bar-container {
+    background: transparent !important;
+    box-shadow: none !important;
+    padding: 0 !important;
+
+    .mdc-snackbar {
+        background: transparent !important;
+        box-shadow: none !important;
+        padding: 0 !important;
+    }
+
+    .mdc-snackbar__surface {
+        background: transparent !important;
+        box-shadow: none !important;
+        padding: 0 !important;
+        border-radius: 0 !important;
+    } 
+}
+
+.snackbar-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+    padding: 1rem 1.5rem;
+    border-radius: 12px;
+    font-weight: 500;
+    color: white;
+
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+
+    &.error {
+        background-color: #e53935;
+    }
+
+    &.warning {
+        background-color: #ff9800;
+    }
+
+    &.success {
+        background-color: #43a047;
+    }
+
+    &.info {
+        background-color: #2196f3;
+    } 
+}
+
+.close-button {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background-color: rgba(255, 255, 255, 0.15);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    border: none;
+
+    .mat-icon {
+        font-size: 22px;
+        color: white;
+    }
+
+    &:hover {
+        background-color: rgba(255, 255, 255, 0.25);
+    }     
+}

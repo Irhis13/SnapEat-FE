@@ -6,11 +6,12 @@ import { RecipeService, Recipe } from '../../../core/services/receta.service';
 import { MatIconModule } from '@angular/material/icon';
 import Hashids from 'hashids';
 import { BreadcrumbService } from 'app/core/services/breadcrumb.service';
+import { BreadcrumbComponent } from 'app/shared/breadcrumb/breadcrumb.component';
 
 @Component({
   selector: 'app-receta-detalle',
   standalone: true,
-  imports: [CommonModule, MatIconModule],
+  imports: [CommonModule, MatIconModule, BreadcrumbComponent],
   templateUrl: './receta-detalle.component.html',
   styleUrls: ['./receta-detalle.component.scss']
 })

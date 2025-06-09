@@ -29,4 +29,10 @@ export class BreadcrumbComponent implements OnInit {
 
     setTimeout(() => this.breadcrumbService.reemit(), 0);
   }
+
+  ngAfterViewInit(): void {
+    requestAnimationFrame(() => {
+      window.dispatchEvent(new Event('resize'));
+    });
+  }
 }

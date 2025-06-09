@@ -5,11 +5,12 @@ import { FormsModule } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
 import { ActivatedRoute, Router } from '@angular/router';
 import { BreadcrumbService } from 'app/core/services/breadcrumb.service';
+import { BreadcrumbComponent } from 'app/shared/breadcrumb/breadcrumb.component';
 
 @Component({
   selector: 'app-recetas',
   standalone: true,
-  imports: [CommonModule, FormsModule, MatIconModule],
+  imports: [CommonModule, FormsModule, MatIconModule, BreadcrumbComponent],
   templateUrl: './recetas.component.html',
   styleUrls: ['./recetas.component.scss']
 })

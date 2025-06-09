@@ -5,11 +5,12 @@ import { MatExpansionModule } from '@angular/material/expansion';
 import { Router } from '@angular/router';
 import { RecipeService, Recipe } from '../../core/services/receta.service';
 import { BreadcrumbService } from 'app/core/services/breadcrumb.service';
+import { BreadcrumbComponent } from 'app/shared/breadcrumb/breadcrumb.component';
 
 @Component({
   selector: 'app-favorites',
   standalone: true,
-  imports: [CommonModule, MatIconModule, MatExpansionModule],
+  imports: [CommonModule, MatIconModule, MatExpansionModule, BreadcrumbComponent],
   templateUrl: './favorites.component.html',
   styleUrls: ['./favorites.component.scss']
 })

@@ -1,52 +1,60 @@
-<div class="recetas-page container-contenido">
-    <section class="filtros-superior">
-        <input type="text" placeholder="Buscar título..." [(ngModel)]="filtros.titulo" (input)="filtrar()" />
-        <input type="text" placeholder="Buscar autor..." [(ngModel)]="filtros.autor" (input)="filtrar()" />
-        <input type="text" placeholder="Buscar ingredientes..." [(ngModel)]="filtros.ingrediente" (input)="filtrar()" />
-        <select [(ngModel)]="ordenSeleccionado" (change)="ordenar()">
-            <option disabled value="">Ordenar por...</option>
-            <option value="titulo-asc">Título A-Z</option>
-            <option value="titulo-desc">Título Z-A</option>
-            <option value="fecha-reciente">Más recientes</option>
-            <option value="fecha-antigua">Más antiguas</option>
-            <option value="likes">Más populares</option>
-        </select>
+<div class="recetas-page">
+    <div class="recetas-container">
+        <app-breadcrumb></app-breadcrumb>
 
-        <div class="botones-categorias">
-            <button *ngFor="let cat of categorias" [ngClass]="{ activo: filtros.categoria === cat.valor }"
-                (click)="toggleCategoria(cat.valor)">
-                <mat-icon>{{ filtros.categoria === cat.valor ? 'remove' : 'add' }}</mat-icon>
-                {{ cat.label }}
-            </button>
-        </div>
+        <section class="busqueda-avanzada">
+            <h3>Búsqueda avanzada</h3>
+            <div class="filtros-superior">
+                <input type="text" placeholder="Buscar título..." [(ngModel)]="filtros.titulo" (input)="filtrar()" />
+                <input type="text" placeholder="Buscar autor..." [(ngModel)]="filtros.autor" (input)="filtrar()" />
+                <input type="text" placeholder="Buscar ingredientes..." [(ngModel)]="filtros.ingrediente"
+                    (input)="filtrar()" />
+                <select [(ngModel)]="ordenSeleccionado" (change)="ordenar()">
+                    <option disabled value="">Ordenar por...</option>
+                    <option value="titulo-asc">Título A-Z</option>
+                    <option value="titulo-desc">Título Z-A</option>
+                    <option value="fecha-reciente">Más recientes</option>
+                    <option value="fecha-antigua">Más antiguas</option>
+                    <option value="likes">Más populares</option>
+                </select>
 
-        <button class="borrar" (click)="limpiarFiltros()">Borrar filtros</button>
-    </section>
+                <div class="botones-categorias">
+                    <button *ngFor="let cat of categorias" [ngClass]="{ activo: filtros.categoria === cat.valor }"
+                        (click)="toggleCategoria(cat.valor)">
+                        <mat-icon>{{ filtros.categoria === cat.valor ? 'remove' : 'add' }}</mat-icon>
+                        {{ cat.label }}
+                    </button>
+                </div>
 
-    <section class="resultados">
-        <h2 class="section-title">Listado de recetas</h2>
+                <button class="borrar" (click)="limpiarFiltros()">Borrar filtros</button>
+            </div>
+        </section>
 
-        <div class="recipes-grid">
-            <div *ngFor="let receta of recetasFiltradas" class="recipe-card-horizontal" (click)="verDetalle(receta.hashedId)">
-                <img [src]="receta.imageUrl" [alt]="receta.title" />
-                <div class="card-info">
-                    <h3>{{ receta.title }}</h3>
-                    <p>{{ receta.description }}</p>
-                    <small>Por {{ receta.authorName }}</small>
-                    <div class="likes">
-                        <mat-icon color="warn">
-                            {{ receta.likedByCurrentUser ? 'favorite' : 'favorite_border' }}
-                        </mat-icon>
-                        <span>{{ receta.likes || 0 }}</span>
-                        <mat-icon *ngIf="receta.favoritedByCurrentUser" class="bookmark-icon">
-                            turned_in
-                        </mat-icon>
+        <section class="resultados">
+            <h2 class="section-title">Listado de recetas</h2>
+
+            <div class="recipes-grid">
+                <div *ngFor="let receta of recetasFiltradas" class="recipe-card-horizontal"
+                    (click)="verDetalle(receta.hashedId)">
+                    <img [src]="receta.imageUrl" [alt]="receta.title" />
+                    <div class="card-info">
+                        <h3>{{ receta.title }}</h3>
+                        <p>{{ receta.description }}</p>
+                        <small>Por {{ receta.authorName }}</small>
+                        <div class="likes">
+                            <mat-icon color="warn">
+                                {{ receta.likedByCurrentUser ? 'favorite' : 'favorite_border' }}
+                            </mat-icon>
+                            <span>{{ receta.likes || 0 }}</span>
+                            <mat-icon *ngIf="receta.favoritedByCurrentUser" class="bookmark-icon">turned_in</mat-icon>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-    </section>
+        </section>
+    </div>
 </div>
+
 <button class="scroll-top" *ngIf="showScrollTop" (click)="scrollToTop()" aria-label="Volver arriba">
     <mat-icon>keyboard_arrow_up</mat-icon>
 </button>

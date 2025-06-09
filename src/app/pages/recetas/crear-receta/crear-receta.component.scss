@@ -78,6 +78,22 @@
             margin-top: 0.8rem;
             box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
         }
+
+        button {
+            background-color: #ff7b1a;
+            color: white;
+            padding: 0.4rem 1rem;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            margin-top: 0.5rem;
+            transition: background-color 0.2s ease-in-out;
+
+            &:hover {
+                background-color: #e86900;
+            }       
+        }
     }
 
     .file-wrapper {
@@ -304,6 +320,11 @@
     @media (max-width: 600px) {
         padding: 1.2rem;
 
+        .detalle-receta.crear-receta {
+            padding-left: 1rem;
+            padding-right: 1rem;       
+        }
+
         h1 {
             font-size: 1.5rem;
         }
@@ -315,5 +336,15 @@
         img {
             max-height: 200px;
         }
+    } 
+}
+
+.breadcrumb-wrapper {
+    max-width: 800px;
+    margin: 1.5rem auto 2rem auto;
+    padding-right: 2rem;
+
+    @media (max-width: 600px) {
+        padding-right: 1.2rem;
     } 
 }

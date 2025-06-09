@@ -1,0 +1,9 @@
+<div class="snackbar-wrapper" [ngClass]="data.type">
+    <mat-icon class="snackbar-icon">
+        {{ data.icon || defaultIcon(data.type) }}
+    </mat-icon>
+    <span class="snackbar-message">{{ data.message }}</span>
+    <button class="close-button" mat-icon-button (click)="data.snackRef.dismiss()" aria-label="Cerrar">
+        <mat-icon>close</mat-icon>
+    </button>
+</div>

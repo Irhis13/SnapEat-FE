@@ -3,6 +3,17 @@
     display: flex;
     flex-direction: column;
 
+    .recetas-container {
+        max-width: 1140px;
+        margin: 0 auto;
+        width: 100%;
+        padding: 0 1rem;
+
+        @media (min-width: 768px) {
+            padding: 0 2rem;
+        }     
+    }
+
     .filtros-superior {
         display: flex;
         flex-wrap: wrap;
@@ -243,4 +254,34 @@
     }
 
     z-index: 1000;
+}
+
+.busqueda-avanzada {
+    background-color: #f9f9f9;
+    border: 1px solid #e0e0e0;
+    border-radius: 12px;
+    padding: 1.5rem;
+    margin-bottom: 2rem;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
+
+    h3 {
+        font-size: 1.2rem;
+        font-weight: 600;
+        color: #333;
+        margin-bottom: 1rem;
+    }
+
+    .filtros-superior {
+        margin-bottom: 0;
+    }
+
+    @media (max-width: 768px) {
+        padding: 1rem;
+    }
+}
+
+.breadcrumb-wrapper {
+    max-width: 800px;
+    margin: 2rem 5rem;
+    padding: 0 1.5rem;
 }

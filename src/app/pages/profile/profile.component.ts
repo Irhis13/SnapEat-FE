@@ -4,11 +4,12 @@ import { FormsModule } from '@angular/forms';
 import { UserService } from 'app/core/services/user.service';
 import { MatIconModule } from '@angular/material/icon';
 import { BreadcrumbService } from 'app/core/services/breadcrumb.service';
+import { BreadcrumbComponent } from 'app/shared/breadcrumb/breadcrumb.component';
 
 @Component({
   selector: 'app-profile',
   standalone: true,
-  imports: [CommonModule, FormsModule, MatIconModule],
+  imports: [CommonModule, FormsModule, MatIconModule, BreadcrumbComponent],
   templateUrl: './profile.component.html',
   styleUrl: './profile.component.scss'
 })

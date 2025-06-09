@@ -1,19 +1,29 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
-import { MatSnackBar } from '@angular/material/snack-bar';
+import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
 import { BreadcrumbService } from 'app/core/services/breadcrumb.service';
 import { RecipeService, Recipe } from 'app/core/services/receta.service';
 import { Observable } from 'rxjs';
+import { SnackbarComponent } from 'app/shared/snackbar/snackbar.component';
+import { BreadcrumbComponent } from 'app/shared/breadcrumb/breadcrumb.component';
 
 @Component({
   selector: 'app-crear-receta',
   standalone: true,
-  imports: [CommonModule, FormsModule, ReactiveFormsModule, MatIconModule],
+  imports: [
+    CommonModule,
+    FormsModule,
+    ReactiveFormsModule,
+    MatIconModule,
+    MatSnackBarModule,
+    BreadcrumbComponent
+  ],
   templateUrl: './crear-receta.component.html',
-  styleUrls: ['./crear-receta.component.scss']
+  styleUrls: ['./crear-receta.component.scss'],
+  encapsulation: ViewEncapsulation.None
 })
 export class CrearRecetaComponent implements OnInit {
   receta: Omit<Recipe, 'id' | 'hashedId' | 'authorName' | 'authorId' | 'likes' | 'likedByCurrentUser' | 'favoritedByCurrentUser' | 'owner'> = {
@@ -77,23 +87,37 @@ export class CrearRecetaComponent implements OnInit {
   }
 
   onImageChange(event: any): void {
-    const file: File = event.target.files[0];
+    const fileInput = event.target as HTMLInputElement;
+
+    const file = fileInput.files && fileInput.files.length > 0 ? fileInput.files[0] : null;
     const maxSizeMB = 2;
 
-    if (file) {
-      if (file.size > maxSizeMB * 1024 * 1024) {
-        alert(`La imagen supera los ${maxSizeMB}MB permitidos.`);
-        return;
-      }
+    if (!file) return;
 
-      const reader = new FileReader();
-      reader.onload = () => {
-        this.imagenPreview = reader.result as string;
-      };
-      reader.readAsDataURL(file);
+    fileInput.value = '';
 
-      this.imagenArchivo = file;
+    const validTypes = ['image/png', 'image/jpeg', 'image/webp'];
+
+    if (!validTypes.includes(file.type)) {
+      this.mostrarMensajePersonalizado(
+        'Formato de imagen no válido. Solo se permiten PNG, JPEG o WebP.',
+        'warning'
+      );
+      return;
     }
+
+    if (file.size > maxSizeMB * 1024 * 1024) {
+      this.mostrarMensajePersonalizado(`La imagen supera los ${maxSizeMB}MB permitidos.`, 'warning');
+      return;
+    }
+
+    const reader = new FileReader();
+    reader.onload = () => {
+      this.imagenPreview = reader.result as string;
+    };
+    reader.readAsDataURL(file);
+
+    this.imagenArchivo = file;
   }
 
   capitalize(text: string): string {
@@ -102,11 +126,20 @@ export class CrearRecetaComponent implements OnInit {
 
   agregarIngrediente() {
     const ingrediente = this.capitalize(this.nuevoIngrediente.trim());
-    if (ingrediente) {
-      this.ingredientes.push(ingrediente);
-      this.nuevoIngrediente = '';
-      this.receta.ingredients = this.ingredientes.join(', ');
+
+    if (!ingrediente) {
+      this.mostrarMensajePersonalizado('El ingrediente no puede estar vacío.', 'warning');
+      return;
     }
+
+    if (this.ingredientes.includes(ingrediente)) {
+      this.mostrarMensajePersonalizado('Ese ingrediente ya está añadido.', 'warning');
+      return;
+    }
+
+    this.ingredientes.push(ingrediente);
+    this.nuevoIngrediente = '';
+    this.receta.ingredients = this.ingredientes.join(', ');
   }
 
   eliminarIngrediente(index: number) {
@@ -116,10 +149,14 @@ export class CrearRecetaComponent implements OnInit {
 
   agregarPaso() {
     const paso = this.capitalize(this.nuevoPaso.trim());
-    if (paso) {
-      this.receta.steps.push(paso);
-      this.nuevoPaso = '';
+
+    if (!paso) {
+      this.mostrarMensajePersonalizado('El paso no puede estar vacío.', 'warning');
+      return;
     }
+
+    this.receta.steps.push(paso);
+    this.nuevoPaso = '';
   }
 
   eliminarPaso(index: number) {
@@ -133,9 +170,13 @@ export class CrearRecetaComponent implements OnInit {
 
   guardarEdicionPaso(index: number): void {
     const texto = this.pasoEditado.trim();
-    if (texto) {
-      this.receta.steps[index] = this.capitalize(texto);
+
+    if (!texto) {
+      this.mostrarMensajePersonalizado('El paso editado no puede estar vacío.', 'warning');
+      return;
     }
+
+    this.receta.steps[index] = this.capitalize(texto);
     this.cancelarEdicionPaso();
   }
 
@@ -151,10 +192,26 @@ export class CrearRecetaComponent implements OnInit {
   }
 
   validarFormulario(): boolean {
-    if (!this.receta.title || !this.receta.description || !this.receta.category || this.ingredientes.length === 0 || this.receta.steps.length === 0) {
-      this.mostrarMensaje('Por favor, completa todos los campos obligatorios.');
+    if (!this.receta.title) {
+      this.mostrarMensajePersonalizado('El título es obligatorio.', 'warning');
       return false;
     }
+
+    if (!this.receta.description) {
+      this.mostrarMensajePersonalizado('La descripción es obligatoria.', 'warning');
+      return false;
+    }
+
+    if (this.ingredientes.length === 0) {
+      this.mostrarMensajePersonalizado('Agrega al menos un ingrediente.', 'warning');
+      return false;
+    }
+
+    if (this.receta.steps.length === 0) {
+      this.mostrarMensajePersonalizado('Agrega al menos un paso.', 'warning');
+      return false;
+    }
+
     return true;
   }
 
@@ -171,12 +228,12 @@ export class CrearRecetaComponent implements OnInit {
     request.subscribe({
       next: (response: any) => {
         const redirectId = response?.hashedId || this.hashedId;
-        this.mostrarMensaje('Receta guardada correctamente');
+        this.mostrarMensajePersonalizado('Receta guardada correctamente', 'success');
         this.router.navigate(['/recetas', redirectId]);
       },
       error: (err) => {
         console.error('Error al guardar la receta', err);
-        this.mostrarMensaje('Error al guardar la receta. Intenta iniciar sesión nuevamente.');
+        this.mostrarMensajePersonalizado('Error al guardar la receta. Intenta iniciar sesión nuevamente.', 'error');
         this.router.navigate(['/login']);
       }
     });
@@ -199,11 +256,21 @@ export class CrearRecetaComponent implements OnInit {
     this.enviarReceta(request);
   }
 
-  mostrarMensaje(mensaje: string): void {
-    this.snackBar.open(mensaje, 'Cerrar', {
-      duration: 3000,
-      horizontalPosition: 'center',
-      verticalPosition: 'top'
-    });
+  mostrarMensajePersonalizado(mensaje: string, tipo: 'error' | 'success' | 'info' | 'warning' = 'error') {
+    this.snackBar.dismiss();
+
+    setTimeout(() => {
+      this.snackBar.openFromComponent(SnackbarComponent, {
+        data: {
+          message: mensaje,
+          type: tipo,
+          snackRef: this.snackBar
+        },
+        duration: 4000,
+        horizontalPosition: 'center',
+        verticalPosition: 'bottom',
+        panelClass: ['custom-snackbar-position']
+      });
+    }, 100);
   }
 }
