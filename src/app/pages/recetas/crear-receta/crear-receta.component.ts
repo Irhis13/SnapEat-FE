@@ -270,7 +270,8 @@ export class CrearRecetaComponent implements OnInit {
 
     const recetaFinal = {
       ...this.receta,
-      ingredients: this.ingredientes.join(', ')
+      ingredients: this.ingredientes.join(', '),
+      imageUrl: this.imagenArchivo ? '' : this.receta.imageUrl || 'assets/images/recipe_default.png'
     };
 
     const request = this.isEditMode && this.hashedId
