@@ -27,16 +27,20 @@ export class DetalleRecetaComponent implements OnInit {
     private recipeService: RecipeService,
     private authService: AuthService,
     private breadcrumbService: BreadcrumbService,
-    private router: Router
+    private router: Router,
   ) { }
 
   ngOnInit(): void {
     const hashedId = this.route.snapshot.paramMap.get('id');
     if (!hashedId) return;
 
-    setTimeout(() => {
+    this.route.queryParams.subscribe(params => {
+      const desdeFavoritos = params['from'] === 'favoritos';
+
       this.breadcrumbService.setBreadcrumbs([
-        { label: 'Recetas', url: '/recetas' },
+        desdeFavoritos
+          ? { label: 'Favoritos', url: '/favoritos' }
+          : { label: 'Recetas', url: '/recetas' },
         { label: 'Detalle', url: this.router.url }
       ]);
     });

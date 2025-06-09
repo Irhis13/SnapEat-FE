@@ -5,14 +5,13 @@ import { CommonModule } from '@angular/common';
 import { HeaderComponent } from './shared/header/header.component';
 import { FooterComponent } from './shared/footer/footer.component';
 import { filter } from 'rxjs/operators';
-import { BreadcrumbComponent } from "./shared/breadcrumb/breadcrumb.component";
 
 @Component({
   selector: 'app-root',
   standalone: true,
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
-  imports: [CommonModule, RouterModule, HeaderComponent, FooterComponent, BreadcrumbComponent]
+  imports: [CommonModule, RouterModule, HeaderComponent, FooterComponent]
 })
 export class AppComponent implements OnInit {
   title = 'SnapEat';

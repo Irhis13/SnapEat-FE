@@ -92,6 +92,8 @@ export class FavoritesComponent implements OnInit {
   }
 
   verDetalle(hashedId: string): void {
-    this.router.navigate(['/recetas', hashedId]);
+    this.router.navigate(['/recetas', hashedId], {
+      queryParams: { from: 'favoritos' }
+    });
   }
 }
