@@ -1,59 +1,74 @@
-# WebCocina
+# SnapEat Frontend
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 19.2.4.
+Este es el frontend del proyecto **SnapEat**, una aplicación Angular diseñada para explorar, crear y guardar recetas gastronómicas. Conecta con la API REST desarrollada en Spring Boot para ofrecer una experiencia completa e interactiva.
 
-## Development server
+---
 
-To start a local development server, run:
+## Funcionalidades principales
 
+- Autenticación de usuarios (registro, login, logout)
+- Visualización de recetas con imágenes, pasos e ingredientes
+- CRUD completo de recetas
+- Gestión de favoritos y likes
+- Edición de perfil de usuario (datos, avatar, contraseña)
+- Navegación intuitiva, responsive y validaciones en formularios
+
+---
+
+## Estructura del proyecto
+
+```plaintext
+src/
+├── app/
+│   ├── auth/                  # Login y registro de usuarios
+│   ├── core/                  # Servicios, interceptores, guards
+│   ├── pages/                 # Vistas principales: home, recetas, perfil, favoritos
+│   ├── shared/                # Componentes reutilizables (header, footer, cards, etc.)
+│   ├── app.routes.ts          # Configuración de rutas
+│   └── app.component.ts       # Componente raíz
+├── assets/                    # Imágenes, avatares, recursos estáticos
+├── index.html                 # Archivo HTML principal
+├── main.ts                    # Bootstrap de Angular
+└── styles.scss                # Estilos globales
+
+```
+---
+
+## Requisitos previos
+
+- Node.js 18+
+- Angular CLI 19+
+
+---
+
+## Instalación y ejecución
+
+### 1. Clonar el repositorio
+
+```bash
+git clone https://github.com/Irhis13/SnapEat-FE.git
+```
+
+### 2. Instalar dependencias
+```bash
+npm install
+```
+> **Importante**: Si no tienes Angular CLI instalado globalmente, hazlo con:
+```bash
+npm install -g @angular/cli
+```
+
+### 3. Levantar servidor de desarrollo
 ```bash
 ng serve
 ```
+> **Importante**: Asegurarse que el backend esté corriendo en la URL especificada en los service. Si usas otra URL o puerto, modifica las rutas en los servicios:
+> - auth.service.ts
+> - receta.service.ts
+> - user.service.ts
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+---
 
-## Code scaffolding
+## Contribuciones
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
-
-```bash
-ng generate component component-name
-```
-
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
-
-```bash
-ng generate --help
-```
-
-## Building
-
-To build the project run:
-
-```bash
-ng build
-```
-
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
-
-## Running unit tests
-
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
-
-```bash
-ng test
-```
-
-## Running end-to-end tests
-
-For end-to-end (e2e) testing, run:
-
-```bash
-ng e2e
-```
-
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+Toda mejora, sugerencia o reporte de errores es bienvenida. ¡Gracias por ayudar a mejorar SnapEat!
