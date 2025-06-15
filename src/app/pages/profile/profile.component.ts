@@ -60,6 +60,10 @@ export class ProfileComponent {
       { label: 'Perfil', url: '/perfil' }
     ]);
     this.loadAvatars();
+    this.loadUserProfile();
+  }
+
+  loadUserProfile(): void {
     this.userService.getPerfil().subscribe({
       next: (user: any) => {
         this.usuario = {
@@ -78,8 +82,7 @@ export class ProfileComponent {
 
   onUsernameChange(): void {
     const username = this.usuario.username?.trim();
-
-    const formatoValido = /^(?![_.-])[a-zA-Z0-9._-]{3,20}(?<![_.-])$/.test(username);
+    const formatoValido = /^[a-zA-Z0-9][a-zA-Z0-9._-]{1,18}[a-zA-Z0-9]$/.test(username);
     this.usernameValido = formatoValido;
 
     if (!username) {
@@ -107,27 +110,24 @@ export class ProfileComponent {
   }
 
   private buildPerfilBlob(extra?: any): Blob {
-    return new Blob(
-      [JSON.stringify({
+    return new Blob([
+      JSON.stringify({
         username: this.usuario.username,
         name: this.usuario.name,
         surname: this.usuario.surname,
         genero: this.usuario.genero,
         ...extra
-      })],
-      { type: 'application/json' }
-    );
+      })
+    ], { type: 'application/json' });
   }
 
   onFotoSeleccionada(event: Event): void {
     const input = event.target as HTMLInputElement;
     if (input.files && input.files[0]) {
       this.selectedImage = input.files[0];
-
       const reader = new FileReader();
       reader.onload = () => {
         this.fotoUrl = reader.result;
-
         const formData = new FormData();
         formData.append('perfil', this.buildPerfilBlob());
         formData.append('imagen', this.selectedImage!);
@@ -144,7 +144,6 @@ export class ProfileComponent {
           error: err => console.error('Error al subir imagen', err)
         });
       };
-
       reader.readAsDataURL(this.selectedImage);
     }
   }
@@ -174,7 +173,6 @@ export class ProfileComponent {
   seleccionarAvatar(avatar: string): void {
     const formData = new FormData();
     formData.append('perfil', this.buildPerfilBlob({ imageUrl: avatar }));
-
     this.userService.actualizarPerfil(formData).subscribe({
       next: () => {
         this.fotoUrl = avatar;
@@ -260,6 +258,19 @@ export class ProfileComponent {
         this.mostrarModalExito = true;
         this.mostrarModalError = false;
         this.loadAvatars();
+        this.loadUserProfile();
+
+        if (this.mostrarCambioPassword) {
+          this.nuevaPassword = '';
+          this.confirmarPassword = '';
+          this.passwordsIguales = true;
+          this.mostrarCambioPassword = false;
+        }
+
+        this.usernameDisponible = null;
+        this.verificandoUsername = false;
+        this.usernameValido = true;
+
         setTimeout(() => this.mostrarModalExito = false, 2000);
       },
       error: err => {

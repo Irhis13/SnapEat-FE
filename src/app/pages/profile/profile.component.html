@@ -3,7 +3,7 @@
 </div>
 <div class="perfil-page">
     <h2 class="section-title">Tu perfil</h2>
-    
+
     <div *ngIf="mostrarModalExito" class="modal-exito-backdrop">
         <div class="modal-exito">
             <mat-icon>check_circle</mat-icon>
@@ -63,7 +63,7 @@
             <div class="form-group">
                 <label>Nombre de usuario</label>
                 <input type="text" [(ngModel)]="usuario.username" name="username" required
-                    pattern="^(?![_.-])[a-zA-Z0-9._-]{3,20}(?<![_.-])$" (ngModelChange)="onUsernameChange()" />
+                    (ngModelChange)="onUsernameChange()" />
                 <small *ngIf="usuario.username && !usernameValido" class="username-status username-error">
                     Solo letras, números, guion, guion bajo o punto. Mín. 3, máx. 20 caracteres.
                 </small>
@@ -77,7 +77,7 @@
                     Nombre de usuario disponible.
                 </small>
             </div>
-            
+
             <div class="form-group">
                 <label>Nombre</label>
                 <input type="text" [(ngModel)]="usuario.name" name="nombre" />
@@ -92,7 +92,7 @@
                     <option value="" disabled selected>Selecciona</option>
                     <option value="HOMBRE">Hombre</option>
                     <option value="MUJER">Mujer</option>
-                    <option value="OTRO">Otro</option>       
+                    <option value="OTRO">Otro</option>
                 </select>
             </div>
         </section>
